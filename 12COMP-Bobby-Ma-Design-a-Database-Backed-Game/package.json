@@ -1,0 +1,16 @@
+{
+  "name": "12comp-project-bmstylish",
+  "version": "1.0.0",
+  "description": "",
+  "main": "login.js",
+  "devDependencies": {
+    "node": "^16.14.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

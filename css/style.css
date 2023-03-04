@@ -1,0 +1,257 @@
+@font-face {
+font-family: "PencilFont";
+src: url("/font/blunt.blunt.ttf");
+}
+
+body {
+    color: #797979;
+    background: #eeeeee;
+    font-family: 'Lato', sans-serif;
+    padding: 0px !important;
+    margin: 0px !important;
+    font-size:14px !important;    
+}
+
+a, a:hover, a:focus {
+    text-decoration: none;
+    outline: none;
+    outline: 0;
+}
+
+#container {
+    width: 100%;
+    height: 100vh;
+}
+
+.lite{
+    color: #00a0df !important;
+}
+
+.canvas{
+    height: 100%;
+}
+
+/*sidebar navigation*/
+#sidebar {
+    width: 180px;
+    height: 100%;
+    position: fixed;
+    background: #394a59;
+}
+
+ul.sidebar-menu {
+    margin: -2px 0 0;
+    padding: 0;
+}
+
+ul.sidebar-menu {
+    margin-top: 70px;
+}
+
+ul.sidebar-menu li a span{
+    display: inline-block;
+}
+
+ul.sidebar-menu li a{
+    color: #d0d8df;
+    text-decoration: none;
+    display: block;
+    padding: 15px 0 15px 10px;
+    font-size: 16px;
+    font-weight: 300;
+    outline: none;
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    -ms-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+    border-right: 1px solid #D7D7D7;
+    border-bottom: 1px solid #D7D7D7;
+}
+
+ul.sidebar-menu li.active a, ul.sidebar-menu li a:hover, ul.sidebar-menu li a:focus {
+    background: #2e3b46;
+    color: #fff;
+    display: block;
+    /*border-radius: 4px;
+    -webkit-border-radius: 4px;*/
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    -ms-transition: all 0.3s ease;
+    transition: all 0.3s ease;        
+}
+
+
+/*main content*/
+#main-content {
+    margin-left: 180px;
+    height: 100%;
+}
+
+.header, .footer {
+    min-height: 60px;
+    padding: 0 15px;
+}
+
+.header {
+    position: fixed;
+    left: 0;
+    right: 0;
+    z-index: 1002;
+    background: rgba(54,66,74,1);
+    border-bottom: 1px solid #f1f2f7;
+}
+
+.infoDisplay{
+    padding-top:86px;
+}
+
+.wrapper {
+    display: inline-block;
+    background-color: rgb(220,220,220);
+    width: 97.5%;
+    height: 75vh;
+}
+
+a.logo {
+    font-size: 22px;
+    font-weight: 300;
+    color: #fed189;
+    float: left;
+    margin-top: 15px;
+    text-transform: uppercase;
+}
+
+a.logo:hover, a.logo:focus {
+    text-decoration: none;
+    outline: none;
+}
+
+a.logo span {
+    color: #688a7e;
+}
+
+.dark-bg {
+  color : #fff;
+  background : #1a2732;
+  background-color : #1a2732;
+}
+
+.p5Canvas{
+    display:none;
+}
+
+.info-container,
+.score,
+.miss,
+.countdown,
+.high-score{
+    display:inline-block;
+}
+
+.middle-container{
+    top: 75% !important;
+    font-family: pencilFont;
+}
+
+.gameName{
+    font-family: pencilFont;
+    font-size:80px;
+}
+/*Button from https://getcssscan.com/css-buttons-examples */
+.startBtn{
+  align-self: center;
+  background-color: #fff;
+  background-image: none;
+  background-position: 0 90%;
+  background-repeat: repeat no-repeat;
+  background-size: 4px 3px;
+  border-radius: 15px 225px 255px 15px 15px 255px 225px 15px;
+  border-style: solid;
+  border-width: 2px;
+  box-shadow: rgba(0, 0, 0, .2) 15px 28px 25px -18px;
+  box-sizing: border-box;
+  color: #41403e;
+  cursor: pointer;
+  display: inline-block;
+  font-weight: bold;
+  font-size: 1rem;
+  line-height: 23px;
+  outline: none;
+  padding: .75rem;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  margin-bottom: 8px !important;
+  text-decoration: none;
+  transition: all 235ms ease-in-out;
+  border-bottom-left-radius: 15px 255px;
+  border-bottom-right-radius: 225px 15px;
+  border-top-left-radius: 255px 15px;
+  border-top-right-radius: 15px 225px;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.startBtn:hover {
+  box-shadow: rgba(0, 0, 0, .3) 2px 8px 8px -5px;
+  transform: translate3d(0, 2px, 0);
+}
+
+.startBtn:focus {
+  box-shadow: rgba(0, 0, 0, .3) 2px 8px 4px -6px;
+}
+
+.stopBtn{
+  margin-left:16px;
+}
+
+.w3-modal-content {
+    top: 25%;
+    width: 800px;
+}
+
+.register{
+    top:10%;
+}
+
+.table-content{
+    top: 5%;
+    width: 1200px;
+}
+
+.w3-modal{
+    z-index:2000;
+}
+
+.labs{
+    display: inline-block;
+    width:100px;
+}
+
+.admin-heading{
+    padding-bottom: 8px;
+    padding-top: 8px;
+}
+
+#adminButton{
+    display: none;
+}
+
+.required-field::after {
+    content: "*";
+    color: red;
+}
+
+.instruction-heading{
+    margin: 10px;
+    padding: 10px;
+    margin-left: 0;
+    padding-left: 0;
+}
+
+ .hover-text {
+        display: none;
+    }
+      

@@ -1,0 +1,11 @@
+[core]
+	repositoryformatversion = 0
+	fileMode = false
+	bare = false
+	logallrefupdates = true
+[user]
+	name = bmstylish
+	email = <>
+[remote "origin"]
+	url = https://github.com/bmstylish/Design-a-database-backed-game
+	fetch = +refs/heads/*:refs/remotes/origin/*

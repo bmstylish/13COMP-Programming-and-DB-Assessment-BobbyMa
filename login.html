@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Bobby Ma 12CompSci - Login Page</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="12COMP mini skills">
+    <meta name="keywords" content="12COMP, mini skills">
+    <meta name="author" content="Mr Bob">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- P5.js *************************************************-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.10.2/p5.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.2/addons/p5.dom.min.js"></script>
+    <!-- w3.css *************************************************-->
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <!-- personal css *************************************************-->
+    <link href="css/login.css" rel="stylesheet">
+    <!-- firebase start ****************************************-->
+    <!-- Firebase App (core Firebase SDK) is always required & must be listed 1st -->
+    <script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-app.js"></script>
+    <!-- Add Firebase products that you want to use -->
+    <script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/ui/6.0.1/firebase-ui-auth.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/6.0.1/firebase-ui-auth.css" />
+    <!-- firebase end ******************************************-->
+</head>
+
+<body class="login-img3-body">
+    <header class="header dark-bg w3-bar">
+        <!--logo start-->
+        <a href="login.html" class="w3-margin logo">Bobby's <span class="lite">Game</span></a>
+        <!--logo end-->
+    </header>
+
+    <!-- Login Text Container -->
+    <div class="w3-container">
+        <div class="login-text w3-container">
+            <h1 class="w3-center w3-large heading">Please Login to Continue</h1>
+        </div>
+
+        <!-- Google Login Container -->
+        <div class="form-container">
+            <form class="login-form" action="index.html">
+                <div class="login-wrap">
+                    <div id="firebaseui-auth-container"></div>
+                    <div id="loader">Loading...</div>
+                </div>
+            </form>
+        </div>
+    </div>
+<!--********************* Your modules *********************-->
+<script src="js/firebase.js"></script>
+<script src="js/login.js"></script>
+</body>
+
+</html>

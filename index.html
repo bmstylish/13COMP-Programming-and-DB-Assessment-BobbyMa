@@ -1,49 +1,258 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <title>13COMP assessment</title>
-  <meta charset="UTF-8">
-  <meta name="description" content="13COMP assessment">
-  <meta name="author" content="?????">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" type="image/x-icon" href="/assets/images/dtec_favicon.PNG">
-  
-  <!-- stylesheets *******************************************-->
-  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-  <link rel="stylesheet" href="style.css">
- 
-  <!-- P5.js & P5.play ***************************************-->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.5.0/p5.min.js"></script> 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.10.2/addons/p5.sound.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.dom.min.js"></script>
-  <script src="https://p5play.org/v3/planck.min.js"></script>
-  <script src="https://p5play.org/v3/p5play.js"></script>
-  
-  <!-- firebase start ****************************************-->
-  <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
-  <!-- Firebase App (core Firebase SDK) always required & must be listed 1st -->
-  <script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-app.js"></script>  
-  <!-- Add Firebase products that you want to use -->
-  <script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-auth.js"></script>  
-  <script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-database.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-analytics.js"></script> 
-  <!-- firebase end ******************************************-->
-  
-  <!-- JQUERY ************************************************-->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-  
-  <!-- Your modules ******************************************-->
-  
+    <title>Bobby Ma 12CompSci - Gaming Website</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="12COMP mini skills">
+    <meta name="keywords" content="12COMP, mini skills">
+    <meta name="author" content="Mr Bob">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- P5.js *************************************************-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.10.2/p5.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.2/addons/p5.dom.min.js"></script>
+    <!-- firebase start ****************************************-->
+    <!-- Firebase App (core Firebase SDK) is always required & must be listed 1st -->
+    <script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-app.js"></script>
+    <!-- Add Firebase products that you want to use -->
+    <script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-database.js"></script>
+    <!-- W3-CSS and Bootstrap -->
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!-- firebase end ******************************************-->
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="js/firebase.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/validate.js"></script>
+    <link href="css/style.css" rel="stylesheet">
 </head>
 
-<!--*************************************************************
-  BODY
-**************************************************************-->
 <body>
-    
-</body>
-</html>
+    <!-- Body container start -->
+    <div id="container">
+        <!-- top header start -->
+        <header class="header dark-bg w3-bar">
 
-<!--*************************************************************
-  END OF INDEX.HTML
-**************************************************************-->
+            <!--logo start-->
+            <a href="#" class="w3-margin logo">Bobby's <span class="lite">Game</span></a>
+            <!--logo end-->
+            <button class="w3-bar-item w3-btn w3-right w3-black w3-margin w3-hover-white"
+                onclick="mainApp.logOut()">Logout</button>
+
+            <button id="adminButton" class="w3-bar-item w3-btn w3-right w3-black w3-margin w3-hover-white"
+                onclick="mainApp.adminCheck()">Admin Sign in</button>
+
+            <div class="w3-bar-item w3-right w3-margin" id="welMsg"></div>
+        </header>
+        <!--header end-->
+
+        <!--sidebar start-->
+        <aside>
+            <div id="sidebar" class="nav-collapse">
+                <!-- sidebar menu start-->
+                <ul class="sidebar-menu">
+                    <li class="active">
+                        <a class="" href="index.html">
+                            <span>Click the Ball</span>
+                        </a>
+                    </li>
+
+                    <li class="w3-tooltip">
+                        <span class="w3-text w3-tag w3-text-red"><b>Game is Under Development</b></span>
+                        <a class="" href="#">
+                            <span>Game 2</span>
+                        </a>
+                    </li>
+                    <li class="w3-tooltip">
+                        <span class="w3-text w3-tag w3-text-red"><b>Game is Under Development</b></span>
+                        <a class="" href="#">
+                            <span>Game 3</span>
+                        </a>
+                    </li>
+                </ul>
+                <!-- sidebar menu end-->
+            </div>
+        </aside>
+        <!--sidebar end-->
+
+        <!-- Registeration Modal -->
+        <div id="register" class="w3-modal">
+            <div class="register w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:600px">
+
+                <div class="w3-center"><br>
+                    <h5><span id="userName"></span>, you're nearly done with registration...</h5>
+                    <img id="avatar" alt="Avatar" style="width:30%" class="w3-circle w3-margin-top">
+                </div>
+
+                <form class="w3-container">
+                    <div class="w3-section">
+                        <div class="w3-container">
+                            <label class="required-field"><b>Display Name</b></label>
+                            <input id="i_displayName" class="w3-input w3-border" type="text"
+                                placeholder="Letters, numbers . and _ (5-16 characters)" required>
+                            <span class="w3-text-red" id="displayNameErr"></span>
+                        </div>
+
+                        <div class="w3-container">
+                            <label class="required-field"><b>Age</b></label>
+                            <input id="i_age" class="w3-input w3-border" placeholder="Between 1-99" required>
+                            <span class="w3-text-red" id="ageErr"></span>
+                        </div>
+
+                        <button type="button" onclick="userSubmit()"
+                            class="w3-button w3-block w3-green w3-section w3-padding">Finish Registration</button>
+                    </div>
+                </form>
+
+                <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
+                </div>
+
+            </div>
+        </div>
+        <!-- Registeration Modal End -->
+
+
+        <!-- Admin Data Modal -->
+        <div id="adminTable" class="w3-modal">
+            <div class="table-content w3-modal-content w3-card-4 w3-animate-zoom">
+                <header class="w3-container w3-blue">
+                    <span onclick="document.getElementById('adminTable').style.display='none'"
+                        class="w3-button w3-blue w3-xlarge w3-display-topright">&times;</span>
+                    <h2 class="w3-container admin-heading">Admin Table</h2>
+                </header>
+
+                <div class="w3-responsive container">
+                    <table class="table table-hover table-bordered">
+                        <caption>List of users</caption>
+                        <thead class="thead-light">
+                            <tr>
+                                <th>UserNo</th>
+                                <th>Name</th>
+                                <th>Display Name</th>
+                                <th>Email</th>
+                                <th>Age</th>
+                                <th>UID</th>
+                                <th>Highscore</th>
+                                <th>Control Center</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="tbody1">
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Modal from bootstrap 5-->
+                <div class="modal fade border border-dark" id="exampleModalCenter" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLongTitle">Control Panel</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <label class="labs">Name: </label>
+                                <input type="text" id="nameMod"><br>
+                                <label class="labs">Display Name: </label>
+                                <input type="text" id="dNameMod"><br>
+                                <label class="labs">Email: </label>
+                                <input type="text" id="emailMod"><br>
+                                <label class="labs">Age: </label>
+                                <input type="text" id="ageMod"><br>
+                                <label id="requiredUid" class="labs">UID: </label>
+                                <input type="text" id="uidMod"><br>
+                                <label class="labs">HighScore: </label>
+                                <input type="text" id="highScoreMod"><br>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button id="addModBtn" type="button" class="btn btn-primary"
+                                    onclick="dataSelect.addUser()">Add New
+                                    Record</button>
+                                <button id="updModBtn" type="button" class="btn btn-success"
+                                    onclick="dataSelect.updUser()">Update
+                                    Record</button>
+                                <button id="delModBtn" type="button" class="btn btn-danger"
+                                    onclick="dataSelect.delUser()">Delete
+                                    Record</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="w3-container w3-light-grey w3-padding">
+                    <button class="w3-button w3-right w3-white w3-border"
+                        onClick="document.getElementById('adminTable').style.display='none'">Save and
+                        Close</button>
+                </div>
+            </div>
+        </div>
+        <!--main content start-->
+        <section id="main-content">
+            <!-- Infomation Display -->
+            <div class="infoDisplay">
+                <div class="w3-container info-container">Time:
+                    <div class="countdown" id="countdown">30s</div>
+                </div>
+                <div class="w3-container info-container">Score:
+                    <div class="score" id="score">0</div>
+                </div>
+                <div class="w3-container info-container">Highscore:
+                    <div class="high-score" id="highScore"></div>
+                </div>
+                <div class="w3-container info-container">Miss:
+                    <div class="miss" id="miss">0</div>
+                </div>
+            </div>
+
+            <!-- Game Canvas -->
+            <section id="wrapper" class="wrapper w3-margin w3-display-container">
+
+                <div id="gameName" class="w3-display-middle game-name-container">
+                    <div class="gameName">Click the Ball</div>
+                </div>
+
+                <div id="startBtn" class="w3-container w3-display-middle middle-container">
+                    <button class="startBtn w3-margin" onclick="setupCvs()">Start</button>
+                    <button onclick="document.getElementById('info').style.display='block'"
+                        class="insBtn w3-button w3-black">How to Play</button>
+                </div>
+            </section>
+
+            <button id="stopBtn" class="stopBtn w3-container" onclick="stopGame()">Stop</button>
+
+            <div id="info" class="w3-modal">
+                <div class="w3-modal-content">
+                    <div class="w3-container">
+                        <span onclick="document.getElementById('info').style.display='none'"
+                            class="w3-button w3-display-topright">&times;</span>
+                        <h2 class="instruction-heading">Welcome to the Ball Game</h2>
+                        <p>You have 30 seconds to click the balls that will appear on the screen using left click. As
+                            the score increase, the speed of the ball will increase. Everytime you miss the ball, your
+                            score will be deducted by 1. Try to hit as many balls as you can. </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <!--main content end-->
+
+    <script src="js/game.js"></script>
+    <script src="js/dataSelect.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
