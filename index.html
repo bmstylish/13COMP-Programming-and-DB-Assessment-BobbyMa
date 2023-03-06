@@ -194,18 +194,16 @@
         </div>
         <!--main content start-->
         <section id="main-content">
+
             <!-- Infomation Display -->
             <div class="infoDisplay">
-                <div class="w3-container info-container">Time:
-                    <div class="countdown" id="countdown">30s</div>
-                </div>
-                <div class="w3-container info-container">Score:
+                <div class="w3-container info-container">WR:
                     <div class="score" id="score">0</div>
                 </div>
-                <div class="w3-container info-container">Highscore:
+                <div class="w3-container info-container">Total Wins:
                     <div class="high-score" id="highScore"></div>
                 </div>
-                <div class="w3-container info-container">Miss:
+                <div class="w3-container info-container">Loses:
                     <div class="miss" id="miss">0</div>
                 </div>
             </div>
@@ -214,31 +212,102 @@
             <section id="wrapper" class="wrapper w3-margin w3-display-container">
 
                 <div id="gameName" class="w3-display-middle game-name-container">
-                    <div class="gameName">Click the Ball</div>
+                    <div class="gameName">Tic Tac Toe</div>
                 </div>
 
                 <div id="startBtn" class="w3-container w3-display-middle middle-container">
                     <button class="startBtn w3-margin" onclick="setupCvs()">Start</button>
+
                     <button onclick="document.getElementById('info').style.display='block'"
                         class="insBtn w3-button w3-black">How to Play</button>
                 </div>
-            </section>
 
-            <button id="stopBtn" class="stopBtn w3-container" onclick="stopGame()">Stop</button>
-
-            <div id="info" class="w3-modal">
-                <div class="w3-modal-content">
-                    <div class="w3-container">
-                        <span onclick="document.getElementById('info').style.display='none'"
-                            class="w3-button w3-display-topright">&times;</span>
-                        <h2 class="instruction-heading">Welcome to the Ball Game</h2>
-                        <p>You have 30 seconds to click the balls that will appear on the screen using left click. As
-                            the score increase, the speed of the ball will increase. Everytime you miss the ball, your
-                            score will be deducted by 1. Try to hit as many balls as you can. </p>
+                <!-- Tic Tac Toe Mutiplayer Lobby -->
+                <div id="lobbyWrapper">
+                    <button class="w3-display-topright w3-margin w3-btn w3-white w3-border w3-border-green w3-round-xlarge">Create</button>
+                    <div id="TTT_lobby">
+                        <table class="tttLobby w3-hoverable w3-table w3-bordered w3-display-topmiddle">
+                            <tr>
+                                <th class="lobbyName">Game</th>
+                                <th>Players</th>
+                            </tr>
+                            <tr>
+                                <td>Jill</td>
+                                <td>1/2</td>
+                                <td> <button>Join</button> </td>
+                            </tr>
+                            <tr>
+                                <td>Eve</td>
+                                <td>1/2</td>
+                                <td>Join</td>
+                            </tr>
+                            <tr>
+                                <td>Adam</td>
+                                <td>1/2</td>
+                                <td>Join</td>
+                            </tr>
+                        </table>
                     </div>
+
                 </div>
+
+
+    <!-- Tic Tac Toe Playboard -->
+    <div id="TTT" class="w3-display-middle">
+        <table>
+            <tr>
+                <td>
+                    <div id="1.1" class="grid" onclick="clicked(this.id)"></div>
+                </td>
+                <td>
+                    <div id="1.2" class="grid" onclick="clicked(this.id)"></div>
+                </td>
+                <td>
+                    <div id="1.3" class="grid" onclick="clicked(this.id)"></div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div id="2.1" class="grid" onclick="clicked(this.id)"></div>
+                </td>
+                <td>
+                    <div id="2.2" class="grid" onclick="clicked(this.id)"></div>
+                </td>
+                <td>
+                    <div id="2.3" class="grid" onclick="clicked(this.id)"></div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div id="3.1" class="grid" onclick="clicked(this.id)"></div>
+                </td>
+                <td>
+                    <div id="3.2" class="grid" onclick="clicked(this.id)"></div>
+                </td>
+                <td>
+                    <div id="3.3" class="grid" onclick="clicked(this.id)"></div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    </section>
+
+    <button id="stopBtn" class="stopBtn w3-container" onclick="stopGame()">Stop</button>
+
+    <div id="info" class="w3-modal">
+        <div class="w3-modal-content">
+            <div class="w3-container">
+                <span onclick="document.getElementById('info').style.display='none'"
+                    class="w3-button w3-display-topright">&times;</span>
+                <h2 class="instruction-heading">Welcome to the Tic Tac Toe</h2>
+                <p>Click to fill in a block of your color, the goal of the game
+                    You have 30 seconds to click the balls that will appear on the screen using left click. As
+                    the score increase, the speed of the ball will increase. Everytime you miss the ball, your
+                    score will be deducted by 1. Try to hit as many balls as you can. </p>
             </div>
-        </section>
+        </div>
+    </div>
+    </section>
     </div>
     <!--main content end-->
 

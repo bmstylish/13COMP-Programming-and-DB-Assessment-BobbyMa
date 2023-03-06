@@ -11,181 +11,135 @@
 //Setting iniital constants and variables 
 const CWIDTH = document.querySelector('#wrapper').offsetWidth;
 const CHEIGHT = document.querySelector('#wrapper').offsetHeight;
-const SPEEDRANGE = [
-    [3, 5],
-    [-5, -3],
-    [6, 10],
-    [-10, -6]
-];
 
-var hit = false;
-var score;
-var miss;
-var timer;
-
-var ball = [];
-var ballAmount = 2;
-var ballRadius = 55;
-var hitRadius = 29.5;
-var px2ball = [];
+var player1Score = [];
+var player2Score = [];
+var clickCount = 0;
 
 //Set up function that resets everything to do with the game, resizes canvas etc
 function setupCvs() {
     //Settings game start stats 
-    timer = 28;
-    miss = -1;
-    score = 0;
-    document.getElementById('defaultCanvas0').style.display = 'block';
     document.getElementById('startBtn').style.display = 'none';
     document.getElementById("gameName").style.display = 'none';
-    document.getElementById("countdown").innerHTML = "29s";
     document.getElementById("score").innerHTML = "0";
-    document.getElementById("highScore").innerHTML = highScore;
-    document.getElementById("miss").innerHTML = "0";
+    document.getElementById("highScore").innerHTML = highScore; 
 
-    //Creating Canvas
-    var canvas = createCanvas(CWIDTH, CHEIGHT + 0.14);
-    resizeCanvas(CWIDTH, CHEIGHT + 0.14);
-    canvas.parent('wrapper');
-    ballCreate();
-
-    //Timer 
-    var gameTimer = setInterval(function() {
-        if (timer <= 0) {
-            //Game End Screen
-            clearInterval(gameTimer);
-            document.getElementById("countdown").innerHTML = "0s";
-            //Displaying Score
-            alert("Score: " + score);
-            resizeCanvas(0, 0);
-            //Resetting Ballspeed
-            ball.forEach((element, index) => {
-                ball[index].speedX = random(-3, 3);
-                ball[index].speedY = random(-3, 3);
-            });
-            //Updating Score and resetting game
-            scoreUpdate(score);
-            document.getElementById('startBtn').style.display = 'block';
-            document.getElementById("gameName").style.display = 'block';
-        } else {
-            document.getElementById("countdown").innerHTML = timer + "s";
-        }
-        timer -= 1;
-    }, 1000);
+    document.getElementById("lobbyWrapper").style.display = 'block';
+    document.getElementById("TTT_lobby").style.display = 'block';
 }
 
 //Stops game by setting timer to 0
 function stopGame() {
-    resizeCanvas(0, 0);
-    timer = 0;
     document.getElementById('startBtn').style.display = 'block';
     document.getElementById("gameName").style.display = 'block';
+    player1Score = [];
+    player2Score = [];
+    clickCount = 0;
+    location.reload();
 }
 
-//Default P5.js draw loop
-function draw() {
-    background(220);
-    for (var i = 0; i < ball.length; i++) {
-        //displaying and moving the ball
-        ball[i].display();
-        ball[i].movement();
-    }
-    dToBall();
-}
-
-//Tracks the distance to each ball from the mouse
-function dToBall() {
-    for (i = 0; i < ball.length; i++) {
-        px2ball[i] = dist(ball[i].x, ball[i].y, mouseX, mouseY);
-    }
-}
-
-//Creates ball 
-function ballCreate() {
-    for (var i = 0; i < ballAmount; i++) {
-        ball[i] = {
-            x: random(ballRadius, CWIDTH - ballRadius),
-            y: random(ballRadius, CHEIGHT - ballRadius),
-            speedX: random(-3, 3),
-            speedY: random(-3, 3),
-
-            display: function() {
-                fill(100, 100, 100);
-                ellipse(this.x, this.y, ballRadius, ballRadius);
-            },
-
-            movement: function() {
-                if (this.x > CWIDTH - ballRadius / 2) {
-                    this.speedX = this.speedX * -1;
-                } else if (this.x < ballRadius / 2) {
-                    this.speedX = this.speedX * -1;
-                }
-
-                this.x += this.speedX;
-
-                if (this.y > CHEIGHT - ballRadius / 2) {
-                    this.speedY = this.speedY * -1;
-                } else if (this.y < ballRadius / 2) {
-                    this.speedY = this.speedY * -1;
-                }
-
-                this.y += this.speedY;
-            },
-        };
-    }
-    ballAmount = 0;
-}
-
-// Adding score, or adding miss, based on whether the ball is clicked or not
-// Changes speed difficulty when score reachs a certain point 
 function mouseClicked() {
-    for (var i = 0; i < ball.length; i++) {
-        var level;
-        //checking the distance to ball, and the ball radius to determine if hit or not
-        if (px2ball[i] < hitRadius) {
-            ball[i].x = random(ballRadius, width - ballRadius);
-            ball[i].y = random(ballRadius, height - ballRadius);
-            //Inital difficulty
-            if (score < 5) {
-                ball[i].speedX = random(-3, 3);
-                ball[i].speedY = random(-3, 3);
-            }
-            //Difficulty upgrade
-            if (score >= 5) {
-                level = Math.floor(Math.random() * (2 - 0)) + 0;
-                ball[i].speedX = random(SPEEDRANGE[level][0], SPEEDRANGE[level][1]);
-                ball[i].speedY = random(SPEEDRANGE[level][0], SPEEDRANGE[level][1]);
-                console.log("speedx:" + ball[i].speedX);
-                console.log("speedy:" + ball[i].speedY);
-            }
-            //Difficulty upgrade
-            if (score >= 10) {
-                level = Math.floor(Math.random() * (4 - 2)) + 2;
-                ball[i].speedX = random(SPEEDRANGE[level][0], SPEEDRANGE[level][1]);
-                ball[i].speedY = random(SPEEDRANGE[level][0], SPEEDRANGE[level][1]);
-            }
-        }
-    }
-    hit = px2ball.some(function(e) {
-        return e <= hitRadius;
-    });
+}
 
-    //Adding score if hit
-    if (hit == true) {
-        score += 1;
-        document.getElementById('score').innerHTML = score;
-        console.log("score: " + score);
+function clicked(id) {
+    if (clickCount % 2 == 0 && player1Score.indexOf(id) < 0 && player2Score.indexOf(id) < 0 && clickCount <= 9) {
+        document.getElementById(id).style.backgroundColor = "red";
+        player1Score.push(id);
+        clickCount++;
+        if (checkWinnerPlayer1())
+            clickCount = 10;
     }
-    else {
-        //Adding miss if not hit, and taking 1 away from score
-        if (mouseX < width && mouseX > 0 && mouseY > 0 && mouseY < height) {
-            miss += 1;
-            if (score != 0) {
-                score -= 1;
-            }
-            document.getElementById('miss').innerHTML = miss;
-            document.getElementById('score').innerHTML = score;
-            console.log("miss:" + miss);
+
+    if (clickCount % 2 != 0 && player1Score.indexOf(id) < 0 && player2Score.indexOf(id) < 0 && clickCount <= 9) {
+
+        document.getElementById(id).style.backgroundColor = "green";
+        player2Score.push(id);
+        clickCount++;
+        if (checkWinnerPlayer2())
+            clickCount = 10;
+    }
+
+}
+
+function checkWinnerPlayer1() {
+    var player1rows = [];
+    var player1cols = [];
+
+
+    for (i = 0; i < player1Score.length; i++) {
+        var rowsColumns1 = [];
+        rowsColumns1 = player1Score[i].toString().split('.');
+        player1rows.push(rowsColumns1[0]);
+        player1cols.push(rowsColumns1[1]);
+
+    }
+
+
+    var player1Winner = checkForRowColumn(player1rows);
+    if (!player1Winner)
+        player1Winner = checkForRowColumn(player1cols);
+    if (!player1Winner)
+        player1Winner = checkForDiagonal(player1Score);
+
+    if (player1Winner) {
+        console.log('Player 1 wins click play again to resume');
+        return true;
+    }
+    return false;
+}
+
+function checkWinnerPlayer2() {
+    var player2rows = [];
+    var player2cols = [];
+    for (i = 0; i < player2Score.length; i++) {
+        var rowsColumns2 = [];
+        rowsColumns2 = player2Score[i].toString().split('.');
+        player2rows.push(rowsColumns2[0]);
+        player2cols.push(rowsColumns2[1]);
+    }
+
+    var player2Winner = checkForRowColumn(player2rows);
+    if (!player2Winner)
+        player2Winner = checkForRowColumn(player2cols);
+    if (!player2Winner)
+        player2Winner = checkForDiagonal(player2Score);
+
+    if (player2Winner) {
+        console.log('Player 2 wins click play again to resume');
+        return true;
+    }
+    return false;
+}
+
+function checkForRowColumn(array) {
+    if (array.length > 2) {
+        var one = 0;
+        var two = 0;
+        var three = 0;
+        for (i = 0; i < array.length; i++) {
+            if (array[i] == '1')
+                one++;
+            if (array[i] == '2')
+                two++;
+            if (array[i] == '3')
+                three++;
         }
+        if (one == 3 || two == 3 || three == 3)
+            return true;
+
+        return false;
+    }
+    return false;
+
+}
+
+function checkForDiagonal(playerScore) {
+    if (playerScore.length > 2) {
+        if (playerScore.indexOf('1.1') > -1 && playerScore.indexOf('2.2') > -1 && playerScore.indexOf('3.3') > -1)
+            return true;
+        if (playerScore.indexOf('1.3') > -1 && playerScore.indexOf('2.2') > -1 && playerScore.indexOf('3.1') > -1)
+            return true;
+        return false;
+
     }
 }
