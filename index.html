@@ -224,95 +224,104 @@
 
                 <!-- Tic Tac Toe Mutiplayer Lobby -->
                 <div id="lobbyWrapper">
-                    <button class="w3-display-topright w3-margin w3-btn w3-white w3-border w3-border-green w3-round-xlarge">Create</button>
+                    <button onclick="gameManager.createGame()"
+                        class="w3-display-topright w3-margin w3-btn w3-white w3-border w3-border-green w3-round-xlarge">Create</button>
                     <div id="TTT_lobby">
                         <table class="tttLobby w3-hoverable w3-table w3-bordered w3-display-topmiddle">
-                            <tr>
-                                <th class="lobbyName">Game</th>
-                                <th>Players</th>
-                            </tr>
-                            <tr>
-                                <td>Jill</td>
-                                <td>1/2</td>
-                                <td> <button>Join</button> </td>
-                            </tr>
-                            <tr>
-                                <td>Eve</td>
-                                <td>1/2</td>
-                                <td>Join</td>
-                            </tr>
-                            <tr>
-                                <td>Adam</td>
-                                <td>1/2</td>
-                                <td>Join</td>
-                            </tr>
+                            <thead>
+                                <tr>
+                                    <th class="lobbyName">Game</th>
+                                    <th>Players</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="ttt_tablebody">
+                                <tr>
+                                    <td>Jill</td>
+                                    <td>1/2</td>
+                                    <td> <button>Join</button> </td>
+                                </tr>
+                                <tr>
+                                    <td>Eve</td>
+                                    <td>1/2</td>
+                                    <td>Join</td>
+                                </tr>
+                                <tr>
+                                    <td>Adam</td>
+                                    <td>1/2</td>
+                                    <td>Join</td>
+                                </tr>
+                            </tbody>
+
+
                         </table>
                     </div>
 
                 </div>
 
 
-    <!-- Tic Tac Toe Playboard -->
-    <div id="TTT" class="w3-display-middle">
-        <table>
-            <tr>
-                <td>
-                    <div id="1.1" class="grid" onclick="clicked(this.id)"></div>
-                </td>
-                <td>
-                    <div id="1.2" class="grid" onclick="clicked(this.id)"></div>
-                </td>
-                <td>
-                    <div id="1.3" class="grid" onclick="clicked(this.id)"></div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div id="2.1" class="grid" onclick="clicked(this.id)"></div>
-                </td>
-                <td>
-                    <div id="2.2" class="grid" onclick="clicked(this.id)"></div>
-                </td>
-                <td>
-                    <div id="2.3" class="grid" onclick="clicked(this.id)"></div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div id="3.1" class="grid" onclick="clicked(this.id)"></div>
-                </td>
-                <td>
-                    <div id="3.2" class="grid" onclick="clicked(this.id)"></div>
-                </td>
-                <td>
-                    <div id="3.3" class="grid" onclick="clicked(this.id)"></div>
-                </td>
-            </tr>
-        </table>
-    </div>
-    </section>
+                <!-- Tic Tac Toe Playboard -->
+                <div id="TTT" class="w3-display-middle">
+                    <table>
+                        <tr>
+                            <td>
+                                <div id="1.1" class="grid" onclick="clicked(this.id)"></div>
+                            </td>
+                            <td>
+                                <div id="1.2" class="grid" onclick="clicked(this.id)"></div>
+                            </td>
+                            <td>
+                                <div id="1.3" class="grid" onclick="clicked(this.id)"></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div id="2.1" class="grid" onclick="clicked(this.id)"></div>
+                            </td>
+                            <td>
+                                <div id="2.2" class="grid" onclick="clicked(this.id)"></div>
+                            </td>
+                            <td>
+                                <div id="2.3" class="grid" onclick="clicked(this.id)"></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div id="3.1" class="grid" onclick="clicked(this.id)"></div>
+                            </td>
+                            <td>
+                                <div id="3.2" class="grid" onclick="clicked(this.id)"></div>
+                            </td>
+                            <td>
+                                <div id="3.3" class="grid" onclick="clicked(this.id)"></div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </section>
 
-    <button id="stopBtn" class="stopBtn w3-container" onclick="stopGame()">Stop</button>
+            <button id="stopBtn" class="stopBtn w3-container" onclick="stopGame()">Stop</button>
 
-    <div id="info" class="w3-modal">
-        <div class="w3-modal-content">
-            <div class="w3-container">
-                <span onclick="document.getElementById('info').style.display='none'"
-                    class="w3-button w3-display-topright">&times;</span>
-                <h2 class="instruction-heading">Welcome to the Tic Tac Toe</h2>
-                <p>Click to fill in a block of your color, the goal of the game
-                    You have 30 seconds to click the balls that will appear on the screen using left click. As
-                    the score increase, the speed of the ball will increase. Everytime you miss the ball, your
-                    score will be deducted by 1. Try to hit as many balls as you can. </p>
+            <div id="info" class="w3-modal">
+                <div class="w3-modal-content">
+                    <div class="w3-container">
+                        <span onclick="document.getElementById('info').style.display='none'"
+                            class="w3-button w3-display-topright">&times;</span>
+                        <h2 class="instruction-heading">Welcome to the Tic Tac Toe</h2>
+                        <p>Click to fill in a block of your color, the goal of the game
+                            You have 30 seconds to click the balls that will appear on the screen using left click. As
+                            the score increase, the speed of the ball will increase. Everytime you miss the ball, your
+                            score will be deducted by 1. Try to hit as many balls as you can. </p>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
-    </section>
+        </section>
     </div>
     <!--main content end-->
 
     <script src="js/game.js"></script>
     <script src="js/dataSelect.js"></script>
+    <script src="js/gameManager.js"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
         crossorigin="anonymous"></script>
