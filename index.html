@@ -19,6 +19,7 @@
     <script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-database.js"></script>
     <!-- W3-CSS and Bootstrap -->
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <!-- firebase end ******************************************-->
@@ -55,7 +56,7 @@
                 <ul class="sidebar-menu">
                     <li class="active">
                         <a class="" href="index.html">
-                            <span>Click the Ball</span>
+                            <span>Guess the Number</span>
                         </a>
                     </li>
 
@@ -208,6 +209,15 @@
                 </div>
             </div>
 
+            <!-- Barrier Modal -->
+            <div id="barrierModal" class="w3-modal">
+                <div class="w3-modal-content">
+                    <div class="w3-container">
+                        <p>Waiting for Other Player...</p>
+                    </div>
+                </div>
+            </div>
+
             <!-- Game Canvas -->
             <section id="wrapper" class="wrapper w3-margin w3-display-container">
 
@@ -225,7 +235,11 @@
                 <!-- Tic Tac Toe Mutiplayer Lobby -->
                 <div id="lobbyWrapper">
                     <button onclick="gameManager.createGame()"
-                        class="w3-display-topright w3-margin w3-btn w3-white w3-border w3-border-green w3-round-xlarge">Create</button>
+                        class="createBtn w3-display-topright w3-margin w3-btn w3-white w3-border w3-border-green w3-round-xlarge">Create</button>
+                    
+                    <div class="refresh">
+                        <i onclick="selectAllGame()" class="w3-display-topright fa fa-refresh material-icons"></i>
+                    </div>
                     <div id="TTT_lobby">
                         <table class="tttLobby w3-hoverable w3-table w3-bordered w3-display-topmiddle">
                             <thead>
@@ -236,24 +250,7 @@
                             </thead>
 
                             <tbody id="ttt_tablebody">
-                                <tr>
-                                    <td>Jill</td>
-                                    <td>1/2</td>
-                                    <td> <button>Join</button> </td>
-                                </tr>
-                                <tr>
-                                    <td>Eve</td>
-                                    <td>1/2</td>
-                                    <td>Join</td>
-                                </tr>
-                                <tr>
-                                    <td>Adam</td>
-                                    <td>1/2</td>
-                                    <td>Join</td>
-                                </tr>
                             </tbody>
-
-
                         </table>
                     </div>
 

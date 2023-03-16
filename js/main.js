@@ -41,6 +41,7 @@ var highScore;
                             score: 0,
                             highscore: snapshot.val(),
                         });
+                        sessionStorage.setItem('uid', firebase.auth().currentUser.uid)
                     }
                     else {
                         //Writing data for user without an account
@@ -66,6 +67,8 @@ var highScore;
                     if (snapshot.exists()) {
                         console.log("register data exist");
                         document.getElementById('welMsg').innerHTML = "Welcome " + snapshot.child("displayName").val();
+                        //Session Storage of gameName if register data exist 
+                        sessionStorage.setItem('inGameName', snapshot.child("displayName").val());
                     }
                     else {
                         console.log("register data doesn't exist");
@@ -81,6 +84,8 @@ var highScore;
                             console.log(snapshot.val());
                             document.getElementById("userName").innerHTML = snapshot.val();
                         });
+                        //Sesssion Storage of gameName if register data DOESN'T exist
+                        sessionStorage.setItem('inGameName', document.getElementById("userName").innerHTML);
                     }
                 });
 
@@ -141,7 +146,6 @@ var highScore;
         });
     }
     mainApp.adminCheck = adminCheck;
-
 })();
 
 function scoreUpdate(_value) {

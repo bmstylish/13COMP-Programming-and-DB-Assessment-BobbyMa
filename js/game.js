@@ -22,10 +22,11 @@ function setupCvs() {
     document.getElementById('startBtn').style.display = 'none';
     document.getElementById("gameName").style.display = 'none';
     document.getElementById("score").innerHTML = "0";
-    document.getElementById("highScore").innerHTML = highScore; 
+    document.getElementById("highScore").innerHTML = highScore;
 
     document.getElementById("lobbyWrapper").style.display = 'block';
     document.getElementById("TTT_lobby").style.display = 'block';
+    selectAllGame();
 }
 
 //Stops game by setting timer to 0
