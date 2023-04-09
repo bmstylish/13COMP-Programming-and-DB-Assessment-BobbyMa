@@ -222,7 +222,7 @@
             <section id="wrapper" class="wrapper w3-margin w3-display-container">
 
                 <div id="gameName" class="w3-display-middle game-name-container">
-                    <div class="gameName">Tic Tac Toe</div>
+                    <div class="gameName">Guess the Number</div>
                 </div>
 
                 <div id="startBtn" class="w3-container w3-display-middle middle-container">
@@ -236,11 +236,11 @@
                 <div id="lobbyWrapper">
                     <button onclick="gameManager.createGame()"
                         class="createBtn w3-display-topright w3-margin w3-btn w3-white w3-border w3-border-green w3-round-xlarge">Create</button>
-                    
+
                     <div class="refresh">
                         <i onclick="selectAllGame()" class="w3-display-topright fa fa-refresh material-icons"></i>
                     </div>
-                    <div id="TTT_lobby">
+                    <div id="GTN_lobby">
                         <table class="tttLobby w3-hoverable w3-table w3-bordered w3-display-topmiddle">
                             <thead>
                                 <tr>
@@ -249,7 +249,7 @@
                                 </tr>
                             </thead>
 
-                            <tbody id="ttt_tablebody">
+                            <tbody id="GTN_tablebody">
                             </tbody>
                         </table>
                     </div>
@@ -257,7 +257,7 @@
                 </div>
 
 
-                <!-- Tic Tac Toe Playboard -->
+                <!-- *********** Tic Tac Toe Playboard *********** -->
                 <div id="TTT" class="w3-display-middle">
                     <table>
                         <tr>
@@ -295,6 +295,47 @@
                         </tr>
                     </table>
                 </div>
+
+                <!-- *********** GTN Playboard *********** -->
+                <div id="GTN" class="w3-row">
+
+                    <div class="player-half w3-half w3-col m6 l6 s6 w3-padding">
+                        <div class="w3-white w3-text-grey w3-card-4">
+                            <div class="w3-container">
+                                <div id="initalNum">
+                                    <form onsubmit="return false">
+                                        <p>Input your number:</p>
+                                        <input id="guessNum" type="text" maxlength="1"
+                                            oninput="this.value=this.value.replace(/[^0-9]/g,'');" />
+                                        <input type="submit" onclick="readNum()">
+                                    </form>
+                                </div>
+
+                                <div id="guessOpp">
+                                    <form onsubmit="return false">
+                                        <p>Input your guess:</p>
+                                        <input title="guessOppNum" id="guessOppNum" type="text" maxlength="1"
+                                            oninput="this.value=this.value.replace(/[^0-9]/g,'');" />
+                                        <button type="submit"
+                                            onclick="GTN.guessNum(document.getElementById('guessOppNum').value)">Submit</button>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="w3-padding">
+                                <progress value="0" max="10" id="countDown"></progress>
+                            </div>
+
+                        </div>
+                        <div class="opp-half w3-half w3-col m6 l6 s6 w3-padding">
+                            <div class="w3-white w3-text-grey w3-card-4">
+                                <div class="w3-container">
+                                    <div id="oppName"></div>
+                                    <p>Opp Guess:</p>
+                                    <div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
             </section>
 
             <button id="stopBtn" class="stopBtn w3-container" onclick="stopGame()">Stop</button>
@@ -316,7 +357,7 @@
     </div>
     <!--main content end-->
 
-    <script src="js/game.js"></script>
+    <script src="js/GTN.js"></script>
     <script src="js/dataSelect.js"></script>
     <script src="js/gameManager.js"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"

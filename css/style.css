@@ -339,3 +339,20 @@ i.material-icons:hover {
 }
 
 
+.player-half{
+    float: left;
+    width: 45vw;
+}
+
+.opp-half{
+    float: right !important;
+    width: 45vw;
+}
+
+#GTN{
+    display: none;
+}
+
+#guessOpp{
+    display: none;
+}
