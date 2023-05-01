@@ -1,11 +1,11 @@
- /************************************************************/
+ /*********************************************************** */
 // Written by Bobby Ma Term 1 - 2 2022: Game & Firebase Database 
 // Creates the table, then read all from the database, then presents all using html Table
 // Creates, Edit, Add new records into the HTML table as well as the firebase real time database 
 // v01: Creating Admin Table
 // v02: Table Compeleted, creates new js for table creation functions 
 // v03: Simplfying table functions
-/************************************************************/
+/*********************************************************** */
 //Global variables 
 var dataSelect = {};
 var userList = [];

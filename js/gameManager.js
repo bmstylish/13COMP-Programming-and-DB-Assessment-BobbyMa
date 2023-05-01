@@ -2,6 +2,29 @@ var gameManager = {};
 var gameList = [];
 var gameListCount;
 
+function readNum() {
+    var guessNum = document.getElementById('guessNum').value;
+    document.getElementById('initalNum').style.display = 'none';
+    document.getElementById('guessOpp').style.display = 'block';
+    
+    if (sessionStorage.getItem('currentGame') == firebase.auth().currentUser.uid) {
+        //Player 1 
+        // check for has child
+        firebase.database().ref('game/' + 'GTN/' + 'active/').child(sessionStorage.getItem('currentGame')).update({
+            oneNum: guessNum
+        });
+    }
+        
+    else {
+        //Player 2 
+        firebase.database().ref('game/' + 'GTN/' + 'active/').child(sessionStorage.getItem('currentGame')).update({
+            twoNum: guessNum
+        })
+    }
+
+
+}
+
 function createGame() {
     firebase.database().ref('game/' + 'GTN/' + 'unActive/' + firebase.auth().currentUser.uid).set({
         oneUID: firebase.auth().currentUser.uid,
@@ -9,8 +32,6 @@ function createGame() {
         oneDN: sessionStorage.getItem('inGameName'),
         twoDN: '',
         turn: 0,
-        oneNum: '',
-        twoNum: '',
         win: '',
     });
     sessionStorage.setItem('gameStart', false);
@@ -23,7 +44,6 @@ function createGame() {
     if (sessionStorage.getItem('gameStart') == 'false') {
         document.getElementById("barrierModal").style.display = 'block'
     }
-
     waitingForGame();
 }
 gameManager.createGame = createGame;
@@ -33,8 +53,24 @@ function waitingForGame() {
         if (snapshot.val() != '') {
             sessionStorage.setItem('gameStart', true);
             document.getElementById("barrierModal").style.display = 'none';
+            waitingForNum();
+        }
+    });
+}
+
+function waitingForNum() {
+    firebase.database().ref('game/' + 'GTN/' + 'active/' + sessionStorage.getItem('currentGame') + '/').on("value", (snapshot) =>{
+    const player1 = snapshot.child('oneNum').exists() ? snapshot.child('oneNum').val() : null;
+    const player2 = snapshot.child('twoNum').exists() ? snapshot.child('twoNum').val() : null;
+
+        if(player1 && player2){
+            gameBegin();
         }
     })
+}
+
+function gameBegin() {
+  console.log('Both child nodes have values!');
 }
 
 
@@ -51,7 +87,7 @@ function selectAllGame() {
                     var refGameUID = currentRecord.val();
 
                     var gameName;
-                    
+
                     if (refGameUID.oneDN == null) {
                         return
                     }
@@ -123,14 +159,11 @@ function joinGame(_joinID) {
 
     firebase.database().ref('game/' + 'GTN/' + 'unActive/' + _joinID).once('value', (snapshot => {
         var currentGame = snapshot.val()
-        firebase.database().ref('game/' + 'GTN/' + 'active/').set({
+        firebase.database().ref('game/' + 'GTN/' + 'active/').update({
             [_joinID]: currentGame
         });
 
-        firebase.database().ref('game/' + 'GTN/' + 'unActive/' + _joinID + '/').set({
-            gameStart: true
-        })
+        firebase.database().ref('game/' + 'GTN/' + 'unActive/' + _joinID + '/').remove();
     }))
-
-
+    waitingForNum();
 }

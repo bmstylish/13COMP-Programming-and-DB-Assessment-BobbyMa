@@ -1,4 +1,4 @@
-/************************************************************/
+/*********************************************************** */
 // Written by Bobby Ma Term 1 - 2 2022: Game & Firebase Database 
 // The main registration functions that regestier user logins and writes to 
 // the firebase database, creates local variables for user, eg.score, name 
@@ -9,7 +9,7 @@
 // v05: Finish highscore update, checks for highscore and updates highscore\
 // v06: Starts the registration function, creates validate.js 
 // v07: Finish validation function inorder, then finished registration function, and updates firebase realtime database 
-/************************************************************/
+/*********************************************************** */
 
 //Global Variables 
 var mainApp = {};

@@ -1,11 +1,11 @@
-/************************************************************/
+/*********************************************************** */
 // Written by Bobby Ma Term 1 - 2 2022: Game & Firebase Database 
 // This is the validaation process behind user regeister for the website 
 // By selecting a type of data to validate, then checking aginst the criterias  
 // v01: Adding regex to name validation, and finishing name validation
 // v02: Adding age validation 
 // v03: Adding submit function 
-/************************************************************/
+/*********************************************************** */
 
 //Submit Function, validates data then writes to the firebase realtime database
 function userSubmit() {
