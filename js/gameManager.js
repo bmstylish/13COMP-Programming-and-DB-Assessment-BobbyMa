@@ -6,7 +6,7 @@ function readNum() {
     var guessNum = document.getElementById('guessNum').value;
     document.getElementById('initalNum').style.display = 'none';
     document.getElementById('guessOpp').style.display = 'block';
-    
+
     if (sessionStorage.getItem('currentGame') == firebase.auth().currentUser.uid) {
         //Player 1 
         // check for has child
@@ -14,15 +14,13 @@ function readNum() {
             oneNum: guessNum
         });
     }
-        
+
     else {
         //Player 2 
         firebase.database().ref('game/' + 'GTN/' + 'active/').child(sessionStorage.getItem('currentGame')).update({
             twoNum: guessNum
         })
     }
-
-
 }
 
 function createGame() {
@@ -32,6 +30,7 @@ function createGame() {
         oneDN: sessionStorage.getItem('inGameName'),
         twoDN: '',
         turn: 0,
+        timeLeft: '',
         win: '',
     });
     sessionStorage.setItem('gameStart', false);
@@ -59,20 +58,104 @@ function waitingForGame() {
 }
 
 function waitingForNum() {
-    firebase.database().ref('game/' + 'GTN/' + 'active/' + sessionStorage.getItem('currentGame') + '/').on("value", (snapshot) =>{
-    const player1 = snapshot.child('oneNum').exists() ? snapshot.child('oneNum').val() : null;
-    const player2 = snapshot.child('twoNum').exists() ? snapshot.child('twoNum').val() : null;
+    firebase.database().ref('game/' + 'GTN/' + 'active/' + sessionStorage.getItem('currentGame') + '/').on("value", (snapshot) => {
+        const player1 = snapshot.child('oneNum').exists() ? snapshot.child('oneNum').val() : null;
+        const player2 = snapshot.child('twoNum').exists() ? snapshot.child('twoNum').val() : null;
 
-        if(player1 && player2){
-            gameBegin();
+        if (player1 && player2) {
+            countDown();
+            firebase.database().ref('game/' + 'GTN/' + 'active/' + sessionStorage.getItem('currentGame') + '/').off();
+            console.log("Player 1")
         }
     })
 }
 
-function gameBegin() {
-  console.log('Both child nodes have values!');
-}
+function guessNum(_num) {
+    console.log("guessNum");
 
+    firebase.database().ref('game/' + 'GTN/' + 'active/' + sessionStorage.getItem('currentGame') + '/' + 'turn/').once('value', (snapshot) => {
+        var turn = snapshot.val();
+
+        if (firebase.auth().currentUser.uid == sessionStorage.getItem('currentGame') && turn == 0) {
+            //Player 1 
+            firebase.database().ref('game/' + 'GTN/' + 'active/' + sessionStorage.getItem('currentGame') + '/' + 'twoNum/').once('value', (snapshot) => {
+                console.log(_num);
+                if (_num == snapshot.val()) {
+                    console.log("P1 Win")
+                }
+                else {
+                    console.log("P1 lose")
+                    firebase.database().ref('game/' + 'GTN/' + 'active/').child(sessionStorage.getItem('currentGame')).update({
+                        turn: 1
+                    })
+                    //CountDown
+                    // firebase.database().ref('game/' + 'GTN/' + 'active/').child(sessionStorage.getItem('currentGame')).child('turn').on('value', (snapshot) => {
+                    //     countDown();
+                    // })
+                }
+            })
+        }
+
+        if (firebase.auth().currentUser.uid != sessionStorage.getItem('currentGame') && turn == 1) {
+            //Player 2 
+            firebase.database().ref('game/' + 'GTN/' + 'active/' + sessionStorage.getItem('currentGame') + '/' + 'oneNum/').once('value', (snapshot) => {
+                console.log(_num);
+                if (_num == snapshot.val()) {
+                    console.log("P2 Win")
+                }
+                else {
+                    console.log("P2 lose")
+                    firebase.database().ref('game/' + 'GTN/' + 'active/').child(sessionStorage.getItem('currentGame')).update({
+                        turn: 0
+                    })
+                    //Calls for Countdown
+                    // firebase.database().ref('game/' + 'GTN/' + 'active/').child(sessionStorage.getItem('currentGame')).child('turn').on('value', (snapshot) => {
+                    //     countDown();
+                    // })
+                }
+            })
+        };
+
+    })
+}
+GTN.guessNum = guessNum;
+
+function countDown() {
+    firebase.database().ref('game/' + 'GTN/' + 'active/' + sessionStorage.getItem('currentGame') + '/' + 'turn/').on('value', (snapshot => {
+        //Starts timer for player 1 
+        switch (snapshot.val()) {
+            case 0:
+                if (firebase.auth().currentUser.uid == sessionStorage.getItem('currentGame')) {
+                    timer();
+                }
+                break;
+            case 1:
+                if (firebase.auth().currentUser.uid != sessionStorage.getItem('currentGame')) {
+                    timer();
+                }
+                break;
+            default:
+                // handle other cases if needed
+                break;
+        }
+    }))
+};
+
+function timer() {
+    console.log("Timer Called")
+    var timeleft = 10;
+    var downloadTimer = setInterval(function() {
+        if (timeleft <= 0) {
+            clearInterval(downloadTimer, 1000);
+            document.getElementById("countDown").innerHTML = "Finished";
+            console.log("Current Player Loses")
+            /** *********************************** MAKE PLAYER LOSE ****************************************** */
+        } else {
+            document.getElementById("countDown").innerHTML = timeleft + " seconds remaining";
+        }
+        timeleft -= 1;
+    }, 1000);
+}
 
 function selectAllGame() {
     console.log("Select All id");
