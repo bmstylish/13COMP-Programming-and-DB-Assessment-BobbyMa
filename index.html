@@ -316,7 +316,7 @@
                                         <p>Input your guess:</p>
                                         <input title="guessOppNum" id="guessOppNum" type="text" maxlength="1"
                                             oninput="this.value=this.value.replace(/[^0-9]/g,'');" />
-                                        <button type="submit"
+                                        <button type="submit" id="submit-guess"
                                             onclick="GTN.guessNum(document.getElementById('guessOppNum').value)">Submit</button>
                                     </form>
                                 </div>

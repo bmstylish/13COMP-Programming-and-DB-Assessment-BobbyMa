@@ -70,6 +70,7 @@ function waitingForNum() {
     })
 }
 
+
 function guessNum(_num) {
     console.log("guessNum");
 
@@ -134,9 +135,6 @@ function countDown() {
                     timer();
                 }
                 break;
-            default:
-                // handle other cases if needed
-                break;
         }
     }))
 };
@@ -146,15 +144,22 @@ function timer() {
     var timeleft = 10;
     var downloadTimer = setInterval(function() {
         if (timeleft <= 0) {
-            clearInterval(downloadTimer, 1000);
+            clearInterval(downloadTimer);
             document.getElementById("countDown").innerHTML = "Finished";
             console.log("Current Player Loses")
+            return; 
             /** *********************************** MAKE PLAYER LOSE ****************************************** */
         } else {
             document.getElementById("countDown").innerHTML = timeleft + " seconds remaining";
         }
         timeleft -= 1;
     }, 1000);
+
+    // Allow the user to end the countdown early
+    document.getElementById("submit-guess").addEventListener("click", function() {
+        clearInterval(downloadTimer);
+        console.log("Countdown Ended Early")
+    });
 }
 
 function selectAllGame() {
