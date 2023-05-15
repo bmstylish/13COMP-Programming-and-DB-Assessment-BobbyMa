@@ -13,7 +13,6 @@
 
 //Global Variables 
 var mainApp = {};
-var highScore;
 
 (function() {
     var firebase = app_firebase;
@@ -22,14 +21,16 @@ var highScore;
             //Signed in
             const PRIVATEREF = firebase.database().ref('userDetails/' + firebase.auth().currentUser.uid + '/private');
             const PUBLICREF = firebase.database().ref('userDetails/' + firebase.auth().currentUser.uid + '/public');
-
+            const GAMEREF = firebase.database().ref('userDetails/' + firebase.auth().currentUser.uid + '/game');
+            sessionStorage.setItem('uid', firebase.auth().currentUser.uid);
+            
             //Write userData to database
             firebase.database().ref('userDetails/' +
                 firebase.auth().currentUser.uid + '/public' + '/highscore/').on('value', (snapshot) => {
                     //Writing data for user with existing account
-                    if (snapshot.exists()) {
-                        console.log("Highscore exists!");
-                        highScore = snapshot.val();
+                    if (snapshot.exists() != true) {
+                        console.log("No Record exists!");
+
                         PRIVATEREF.set({
                             name: firebase.auth().currentUser.displayName,
                             email: firebase.auth().currentUser.email,
@@ -38,25 +39,14 @@ var highScore;
                         PUBLICREF.set({
                             uid: firebase.auth().currentUser.uid,
                             photoURL: firebase.auth().currentUser.photoURL,
-                            score: 0,
                             highscore: snapshot.val(),
                         });
-                    }
-                    else {
-                        //Writing data for user without an account
-                        console.log("Highscore doesn't exist!");
-                        highScore = snapshot.val();
-                        PRIVATEREF.set({
-                            name: firebase.auth().currentUser.displayName,
-                            email: firebase.auth().currentUser.email,
-                        });
 
-                        PUBLICREF.set({
-                            uid: firebase.auth().currentUser.uid,
-                            photoURL: firebase.auth().currentUser.photoURL,
-                            score: 0,
-                            highscore: 0,
-                        });
+                        GAMEREF.child('GTN').set({
+                            totalWins: 0,
+                            WR: 0,
+                            Loses: 0
+                        })
                     }
                 });
 
@@ -66,6 +56,7 @@ var highScore;
                     if (snapshot.exists()) {
                         console.log("register data exist");
                         document.getElementById('welMsg').innerHTML = "Welcome " + snapshot.child("displayName").val();
+                        sessionStorage.setItem('inGameName', snapshot.child("displayName").val());
                     }
                     else {
                         console.log("register data doesn't exist");
@@ -82,12 +73,6 @@ var highScore;
                             document.getElementById("userName").innerHTML = snapshot.val();
                         });
                     }
-                });
-
-            //Sets Highscore and welcome message
-            firebase.database().ref('userDetails/' +
-                firebase.auth().currentUser.uid + '/public' + '/highscore').on('value', (snapshot) => {
-                    document.getElementById("highScore").innerHTML = snapshot.val();
                 });
         }
         else {
@@ -141,18 +126,4 @@ var highScore;
         });
     }
     mainApp.adminCheck = adminCheck;
-
 })();
-
-function scoreUpdate(_value) {
-    //Updates active score in database and checks for highscore update
-    firebase.database().ref('userDetails/' + firebase.auth().currentUser.uid).child('public').update({ 'score': _value });
-
-    firebase.database().ref('userDetails/' + firebase.auth().currentUser.uid + '/public' + '/highscore/').on('value', (snapshot) => {
-        highScore = snapshot.val();
-        console.log("highscore: " + highScore);
-        if (_value > highScore) {
-            firebase.database().ref('userDetails/' + firebase.auth().currentUser.uid).child('public').update({ 'highscore': _value });
-        }
-    });
-}

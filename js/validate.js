@@ -19,11 +19,12 @@ function userSubmit() {
         //Writes to the firebase realtime database
         firebase.database().ref('userDetails/' +
             firebase.auth().currentUser.uid + '/registerData').set({
-                displayName: displayName,
+                inGameName: displayName,
                 age: age,
             });
         //Displays users displayName on the website, and closes the register model
         document.getElementById('welMsg').innerHTML = "Welcome " + displayName;
+        sessionStorage.setItem('inGameName', displayName);
         document.getElementById('register').style.display = "none";
     }
 }

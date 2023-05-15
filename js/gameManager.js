@@ -71,17 +71,21 @@ function waitingForNum() {
             countDown();
             firebase.database().ref('game/' + 'GTN/' + 'active/' + sessionStorage.getItem('currentGame') + '/').off();
             console.log("Gamestars");
-            
+
             //Win Condition Readon Observer  
             firebase.database().ref('game/' + 'GTN/' + 'active/' + sessionStorage.getItem('currentGame') + '/' + 'win/').on('value', (snapshot) => {
                 if (snapshot.val() == "P1") {
                     console.log("P1 Wins");
                     window.location.href = "/win_lose.html";
-                    sessionStorage.setItem('status','win');
+                    if (sessionStorage.getItem('currentGame') == firebase.auth().currentUser.uid) {
+                        sessionStorage.setItem('status', 'win');
+                    }
                 }
                 else if (snapshot.val() == "P2") {
                     console.log("P2 Wins");
-                    sessionStorage.setItem('status','win');
+                    if (sessionStorage.getItem('currentGame') != firebase.auth().currentUser.uid) {
+                        sessionStorage.setItem('status', 'win');
+                    }
                     window.location.href = "/win_lose.html";
                 }
             });
