@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Bobby Ma 13CompSci - Gaming Website</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="12COMP mini skills">
+    <meta name="keywords" content="12COMP, mini skills">
+    <meta name="author" content="Mr Bob">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- P5.js *************************************************-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.10.2/p5.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.2/addons/p5.dom.min.js"></script>
+    <!-- firebase start ****************************************-->
+    <!-- Firebase App (core Firebase SDK) is always required & must be listed 1st -->
+    <script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-app.js"></script>
+    <!-- Add Firebase products that you want to use -->
+    <script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-database.js"></script>
+    <!-- W3-CSS and Bootstrap -->
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!-- firebase end ******************************************-->
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="js/firebase.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/winLose.js"></script>
+    <link href="css/style.css" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Body container start -->
+    <div id="container">
+        <!-- top header start -->
+        <header class="header dark-bg w3-bar">
+
+            <!--logo start-->
+            <a href="#" class="w3-margin logo">Bobby's <span class="lite">Game</span></a>
+            <!--logo end-->
+            <button class="w3-bar-item w3-btn w3-right w3-black w3-margin w3-hover-white"
+                onclick="mainApp.logOut()">Logout</button>
+
+            <button id="adminButton" class="w3-bar-item w3-btn w3-right w3-black w3-margin w3-hover-white"
+                onclick="mainApp.adminCheck()">Admin Sign in</button>
+
+            <div class="w3-bar-item w3-right w3-margin" id="welMsg"></div>
+        </header>
+        <!--header end-->
+
+        <!--sidebar start-->
+        <aside>
+            <div id="sidebar" class="nav-collapse">
+                <!-- sidebar menu start-->
+                <ul class="sidebar-menu">
+                    <li class="active">
+                        <a class="" href="index.html">
+                            <span>Guess the Number</span>
+                        </a>
+                    </li>
+
+                    <li class="w3-tooltip">
+                        <span class="w3-text w3-tag w3-text-red"><b>Game is Under Development</b></span>
+                        <a class="" href="#">
+                            <span>Game 2</span>
+                        </a>
+                    </li>
+                    <li class="w3-tooltip">
+                        <span class="w3-text w3-tag w3-text-red"><b>Game is Under Development</b></span>
+                        <a class="" href="#">
+                            <span>Game 3</span>
+                        </a>
+                    </li>
+                </ul>
+                <!-- sidebar menu end-->
+            </div>
+        </aside>
+        <!--sidebar end-->
+        <div id="main-content">
+            <!-- Infomation Display -->
+            <div class="infoDisplay">
+                <div class="w3-container info-container">WR:
+                    <div class="score" id="score">0</div>
+                </div>
+                <div class="w3-container info-container">Total Wins:
+                    <div class="high-score" id="highScore"></div>
+                </div>
+                <div class="w3-container info-container">Loses:
+                    <div class="miss" id="miss">0</div>
+                </div>
+            </div>
+
+            <!-- Game Canvas -->
+            <div id="wrapper" class="wrapper w3-margin w3-display-container">
+
+                <div id="gameName" class="w3-display-middle game-name-container">
+                    <p id="status" class="gameName"></p>
+                </div>
+
+                <div id="startBtn" class="w3-container w3-display-middle middle-container">
+                    <button class="startBtn w3-margin" onclick="setupCvs()">Start</button>
+
+                    <button onclick="document.getElementById('info').style.display='block'"
+                        class="insBtn w3-button w3-black">How to Play</button>
+                </div>
+            </div>
+        </div>
+</body>
+
+</html>

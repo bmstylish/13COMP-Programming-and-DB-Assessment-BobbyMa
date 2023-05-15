@@ -23,6 +23,7 @@ function readNum() {
     }
 }
 
+// Function to create a new game in Game Lobby
 function createGame() {
     firebase.database().ref('game/' + 'GTN/' + 'unActive/' + firebase.auth().currentUser.uid).set({
         oneUID: firebase.auth().currentUser.uid,
@@ -30,12 +31,13 @@ function createGame() {
         oneDN: sessionStorage.getItem('inGameName'),
         twoDN: '',
         turn: 0,
-        timeLeft: '',
         win: '',
     });
+
     sessionStorage.setItem('gameStart', false);
     sessionStorage.setItem('currentGame', firebase.auth().currentUser.uid);
 
+    // Hide lobby elements and show the game interface
     document.getElementById("lobbyWrapper").style.display = 'none';
     document.getElementById("GTN_lobby").style.display = 'none';
     document.getElementById("GTN").style.display = 'block';
@@ -47,8 +49,10 @@ function createGame() {
 }
 gameManager.createGame = createGame;
 
+// Function to listen for the second player to join the game
 function waitingForGame() {
     firebase.database().ref('game/' + 'GTN/' + 'unActive/' + firebase.auth().currentUser.uid + '/' + 'twoUID/').on('value', (snapshot) => {
+        // Game has started 
         if (snapshot.val() != '') {
             sessionStorage.setItem('gameStart', true);
             document.getElementById("barrierModal").style.display = 'none';
@@ -57,6 +61,7 @@ function waitingForGame() {
     });
 }
 
+// Function to listen for both players to select numbers
 function waitingForNum() {
     firebase.database().ref('game/' + 'GTN/' + 'active/' + sessionStorage.getItem('currentGame') + '/').on("value", (snapshot) => {
         const player1 = snapshot.child('oneNum').exists() ? snapshot.child('oneNum').val() : null;
@@ -65,12 +70,26 @@ function waitingForNum() {
         if (player1 && player2) {
             countDown();
             firebase.database().ref('game/' + 'GTN/' + 'active/' + sessionStorage.getItem('currentGame') + '/').off();
-            console.log("Player 1")
+            console.log("Gamestars");
+            
+            //Win Condition Readon Observer  
+            firebase.database().ref('game/' + 'GTN/' + 'active/' + sessionStorage.getItem('currentGame') + '/' + 'win/').on('value', (snapshot) => {
+                if (snapshot.val() == "P1") {
+                    console.log("P1 Wins");
+                    window.location.href = "/win_lose.html";
+                    sessionStorage.setItem('status','win');
+                }
+                else if (snapshot.val() == "P2") {
+                    console.log("P2 Wins");
+                    sessionStorage.setItem('status','win');
+                    window.location.href = "/win_lose.html";
+                }
+            });
         }
-    })
+    });
 }
 
-
+//Function to guessed num to determine win or lose 
 function guessNum(_num) {
     console.log("guessNum");
 
@@ -82,37 +101,34 @@ function guessNum(_num) {
             firebase.database().ref('game/' + 'GTN/' + 'active/' + sessionStorage.getItem('currentGame') + '/' + 'twoNum/').once('value', (snapshot) => {
                 console.log(_num);
                 if (_num == snapshot.val()) {
-                    console.log("P1 Win")
+                    firebase.database().ref('game/' + 'GTN/' + 'active/').child(sessionStorage.getItem('currentGame')).update({
+                        win: 'P1'
+                    });
                 }
                 else {
                     console.log("P1 lose")
                     firebase.database().ref('game/' + 'GTN/' + 'active/').child(sessionStorage.getItem('currentGame')).update({
                         turn: 1
-                    })
-                    //CountDown
-                    // firebase.database().ref('game/' + 'GTN/' + 'active/').child(sessionStorage.getItem('currentGame')).child('turn').on('value', (snapshot) => {
-                    //     countDown();
-                    // })
+                    });
                 }
-            })
-        }
+            });
+        };
 
         if (firebase.auth().currentUser.uid != sessionStorage.getItem('currentGame') && turn == 1) {
             //Player 2 
             firebase.database().ref('game/' + 'GTN/' + 'active/' + sessionStorage.getItem('currentGame') + '/' + 'oneNum/').once('value', (snapshot) => {
                 console.log(_num);
                 if (_num == snapshot.val()) {
-                    console.log("P2 Win")
+                    //Update P2 win 
+                    firebase.database().ref('game/' + 'GTN/' + 'active/').child(sessionStorage.getItem('currentGame')).update({
+                        win: 'P2'
+                    });
                 }
                 else {
                     console.log("P2 lose")
                     firebase.database().ref('game/' + 'GTN/' + 'active/').child(sessionStorage.getItem('currentGame')).update({
                         turn: 0
                     })
-                    //Calls for Countdown
-                    // firebase.database().ref('game/' + 'GTN/' + 'active/').child(sessionStorage.getItem('currentGame')).child('turn').on('value', (snapshot) => {
-                    //     countDown();
-                    // })
                 }
             })
         };
@@ -121,6 +137,7 @@ function guessNum(_num) {
 }
 GTN.guessNum = guessNum;
 
+// Function to count down play time during player guess
 function countDown() {
     firebase.database().ref('game/' + 'GTN/' + 'active/' + sessionStorage.getItem('currentGame') + '/' + 'turn/').on('value', (snapshot => {
         //Starts timer for player 1 
@@ -136,18 +153,18 @@ function countDown() {
                 }
                 break;
         }
-    }))
+    }));
 };
 
+//10 Second Timer Function 
 function timer() {
-    console.log("Timer Called")
     var timeleft = 10;
     var downloadTimer = setInterval(function() {
         if (timeleft <= 0) {
             clearInterval(downloadTimer);
             document.getElementById("countDown").innerHTML = "Finished";
             console.log("Current Player Loses")
-            return; 
+            return;
             /** *********************************** MAKE PLAYER LOSE ****************************************** */
         } else {
             document.getElementById("countDown").innerHTML = timeleft + " seconds remaining";
@@ -155,13 +172,14 @@ function timer() {
         timeleft -= 1;
     }, 1000);
 
-    // Allow the user to end the countdown early
+    // End countdown on guess submit 
     document.getElementById("submit-guess").addEventListener("click", function() {
         clearInterval(downloadTimer);
         console.log("Countdown Ended Early")
     });
 }
 
+// Function to select all unactive games 
 function selectAllGame() {
     console.log("Select All id");
     document.getElementById("GTN_tablebody").innerHTML = "";
@@ -195,7 +213,7 @@ function selectAllGame() {
         });
 }
 
-
+//Function to display all selected games into HTML page
 function addToGameList(gameName, oneID, oneDN, twoID, twoDN, gameStatus) {
     var tbody = document.getElementById('GTN_tablebody');
     var trow = document.createElement('tr');
@@ -209,6 +227,9 @@ function addToGameList(gameName, oneID, oneDN, twoID, twoDN, gameStatus) {
 
     td0.innerHTML = gameName;
     td1.innerHTML = '1/2';
+
+    // Check if the game name is null
+    // If null, ignore the game and move to the next record
     if (gameName == null) {
         return
     }
@@ -218,8 +239,6 @@ function addToGameList(gameName, oneID, oneDN, twoID, twoDN, gameStatus) {
         join.value = oneID;
         join.setAttribute("onclick", `joinGame("${oneID}")`)
     }
-
-
 
     gameList.push([gameName, oneID, oneDN, twoID, twoDN, gameStatus]);
 
@@ -231,6 +250,7 @@ function addToGameList(gameName, oneID, oneDN, twoID, twoDN, gameStatus) {
     tbody.appendChild(trow);
 };
 
+// Function for Player two to join a game
 function joinGame(_joinID) {
     console.log(_joinID);
 
@@ -244,14 +264,14 @@ function joinGame(_joinID) {
         twoUID: sessionStorage.getItem('uid'),
     })
 
-
     firebase.database().ref('game/' + 'GTN/' + 'unActive/' + _joinID).once('value', (snapshot => {
         var currentGame = snapshot.val()
+        // Move the game from the unactive games section to the active games
         firebase.database().ref('game/' + 'GTN/' + 'active/').update({
             [_joinID]: currentGame
         });
-
+        //Deletes unactive record 
         firebase.database().ref('game/' + 'GTN/' + 'unActive/' + _joinID + '/').remove();
-    }))
+    }));
     waitingForNum();
 }

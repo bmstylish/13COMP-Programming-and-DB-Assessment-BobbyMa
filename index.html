@@ -194,8 +194,7 @@
             </div>
         </div>
         <!--main content start-->
-        <section id="main-content">
-
+        <div id="main-content">
             <!-- Infomation Display -->
             <div class="infoDisplay">
                 <div class="w3-container info-container">WR:
@@ -219,7 +218,7 @@
             </div>
 
             <!-- Game Canvas -->
-            <section id="wrapper" class="wrapper w3-margin w3-display-container">
+            <div id="wrapper" class="wrapper w3-margin w3-display-container">
 
                 <div id="gameName" class="w3-display-middle game-name-container">
                     <div class="gameName">Guess the Number</div>
@@ -322,39 +321,45 @@
                                 </div>
                             </div>
                             <div class="w3-padding">
-                                <div id="countDown"><div>
-                            </div>
-
-                        </div>
-                        <div class="opp-half w3-half w3-col m6 l6 s6 w3-padding">
-                            <div class="w3-white w3-text-grey w3-card-4">
-                                <div class="w3-container">
-                                    <div id="oppName"></div>
-                                    <p>Opp Guess:</p>
-                                    <div>
+                                <div id="countDown"></div>
+                                <div class="opp-half w3-half w3-col m6 l6 s6 w3-padding">
+                                    <div class="w3-white w3-text-grey w3-card-4">
+                                        <div class="w3-container">
+                                            <div id="oppName"></div>
+                                            <p>Opp Guess:</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-            </section>
-
-            <button id="stopBtn" class="stopBtn w3-container" onclick="stopGame()">Stop</button>
-
-            <div id="info" class="w3-modal">
-                <div class="w3-modal-content">
-                    <div class="w3-container">
-                        <span onclick="document.getElementById('info').style.display='none'"
-                            class="w3-button w3-display-topright">&times;</span>
-                        <h2 class="instruction-heading">Welcome to the Tic Tac Toe</h2>
-                        <p>Click to fill in a block of your color, the goal of the game
-                            You have 30 seconds to click the balls that will appear on the screen using left click. As
-                            the score increase, the speed of the ball will increase. Everytime you miss the ball, your
-                            score will be deducted by 1. Try to hit as many balls as you can. </p>
                     </div>
+                    <!-- How to play Modal -->
+                    <section>
+                        <div id="info" class="w3-modal">
+                            <div class="w3-modal-content">
+                                <div class="w3-container">
+                                    <span onclick="document.getElementById('info').style.display='none'"
+                                        class="w3-button w3-display-topright">&times;</span>
+                                    <h2 class="instruction-heading">Welcome to the Tic Tac Toe</h2>
+                                    <p>Click to fill in a block of your color, the goal of the game
+                                        You have 30 seconds to click the balls that will appear on the screen using left
+                                        click.
+                                        As
+                                        the score increase, the speed of the ball will increase. Everytime you miss the
+                                        ball,
+                                        your
+                                        score will be deducted by 1. Try to hit as many balls as you can. </p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
                 </div>
             </div>
-        </section>
+
+            <button id="stopBtn" class="stopBtn w3-container" onclick="stopGame()">Stop</button>
+        </div>
     </div>
+
     <!--main content end-->
 
     <script src="js/GTN.js"></script>
