@@ -26,7 +26,7 @@ var mainApp = {};
             
             //Write userData to database
             firebase.database().ref('userDetails/' +
-                firebase.auth().currentUser.uid + '/public' + '/highscore/').on('value', (snapshot) => {
+                firebase.auth().currentUser.uid + '/public' + '/highscore/').once('value', (snapshot) => {
                     //Writing data for user with existing account
                     if (snapshot.exists() != true) {
                         console.log("No Record exists!");
@@ -55,8 +55,8 @@ var mainApp = {};
                 firebase.auth().currentUser.uid + '/registerData').on('value', (snapshot) => {
                     if (snapshot.exists()) {
                         console.log("register data exist");
-                        document.getElementById('welMsg').innerHTML = "Welcome " + snapshot.child("displayName").val();
-                        sessionStorage.setItem('inGameName', snapshot.child("displayName").val());
+                        document.getElementById('welMsg').innerHTML = "Welcome " + snapshot.child("inGameName").val();
+                        sessionStorage.setItem('inGameName', snapshot.child("inGameName").val());
                     }
                     else {
                         console.log("register data doesn't exist");

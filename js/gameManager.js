@@ -132,7 +132,7 @@ function guessNum(_num) {
                     console.log("P2 lose")
                     firebase.database().ref('game/' + 'GTN/' + 'active/').child(sessionStorage.getItem('currentGame')).update({
                         turn: 0
-                    })
+                    });
                 }
             })
         };
@@ -180,6 +180,7 @@ function timer() {
     document.getElementById("submit-guess").addEventListener("click", function() {
         clearInterval(downloadTimer);
         console.log("Countdown Ended Early")
+        document.getElementById("countDown").innerHTML = "Waiting for Oppnent..."
     });
 }
 

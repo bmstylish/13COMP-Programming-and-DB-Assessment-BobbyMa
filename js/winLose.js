@@ -18,14 +18,14 @@ function winLose() {
         sessionStorage.removeItem('currentGame');
 
         //Redirects back to homepage 
-        //setTimeout(redirect, 5000);
+        setTimeout(redirect, 5000);
     }
     else {
         document.getElementById('status').innerHTML = "Lose";
         sessionStorage.removeItem('currentGame');
 
         //Redirects back to homepage
-        //setTimeout(redirect, 5000);
+        setTimeout(redirect, 5000);
     }
 }
 
