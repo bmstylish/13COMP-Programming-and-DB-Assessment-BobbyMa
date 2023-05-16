@@ -113,8 +113,6 @@
             </div>
         </div>
         <!-- Registeration Modal End -->
-
-
         <!-- Admin Data Modal -->
         <div id="adminTable" class="w3-modal">
             <div class="table-content w3-modal-content w3-card-4 w3-animate-zoom">
@@ -198,13 +196,13 @@
             <!-- Infomation Display -->
             <div class="infoDisplay">
                 <div class="w3-container info-container">WR:
-                    <div class="score" id="score">0</div>
+                    <div class="score" id="WR"></div>
                 </div>
                 <div class="w3-container info-container">Total Wins:
-                    <div class="high-score" id="highScore"></div>
+                    <div class="high-score" id="totalWins"></div>
                 </div>
                 <div class="w3-container info-container">Loses:
-                    <div class="miss" id="miss">0</div>
+                    <div class="miss" id="loss"></div>
                 </div>
             </div>
 
@@ -216,6 +214,27 @@
                     </div>
                 </div>
             </div>
+
+            <!-- How to play Modal -->
+            <section>
+                <div id="info" class="w3-modal">
+                    <div class="w3-modal-content">
+                        <div class="w3-container">
+                            <span onclick="document.getElementById('info').style.display='none'"
+                                class="w3-button w3-display-topright">&times;</span>
+                            <h2 class="instruction-heading">Welcome to the Tic Tac Toe</h2>
+                            <p>Click to fill in a block of your color, the goal of the game
+                                You have 30 seconds to click the balls that will appear on the screen using left
+                                click.
+                                As
+                                the score increase, the speed of the ball will increase. Everytime you miss the
+                                ball,
+                                your
+                                score will be deducted by 1. Try to hit as many balls as you can. </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
             <!-- Game Canvas -->
             <div id="wrapper" class="wrapper w3-margin w3-display-container">
@@ -333,26 +352,6 @@
                             </div>
                         </div>
                     </div>
-                    <!-- How to play Modal -->
-                    <section>
-                        <div id="info" class="w3-modal">
-                            <div class="w3-modal-content">
-                                <div class="w3-container">
-                                    <span onclick="document.getElementById('info').style.display='none'"
-                                        class="w3-button w3-display-topright">&times;</span>
-                                    <h2 class="instruction-heading">Welcome to the Tic Tac Toe</h2>
-                                    <p>Click to fill in a block of your color, the goal of the game
-                                        You have 30 seconds to click the balls that will appear on the screen using left
-                                        click.
-                                        As
-                                        the score increase, the speed of the ball will increase. Everytime you miss the
-                                        ball,
-                                        your
-                                        score will be deducted by 1. Try to hit as many balls as you can. </p>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
                 </div>
             </div>
 

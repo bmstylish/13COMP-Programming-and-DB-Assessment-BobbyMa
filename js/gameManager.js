@@ -127,6 +127,7 @@ function guessNum(_num) {
                     firebase.database().ref('game/' + 'GTN/' + 'active/').child(sessionStorage.getItem('currentGame')).update({
                         win: 'P2'
                     });
+                    //Update P2 score
                 }
                 else {
                     console.log("P2 lose")

@@ -6,7 +6,7 @@
 // v02: Reads userDetails from database 
 // v03: Writes to userDetails/user.uid/private, /public, 
 // v04: Creates the highscore function 
-// v05: Finish highscore update, checks for highscore and updates highscore\
+// v05: Finish highscore update, checks for highscore and updates highscore
 // v06: Starts the registration function, creates validate.js 
 // v07: Finish validation function inorder, then finished registration function, and updates firebase realtime database 
 /*********************************************************** */
@@ -16,18 +16,18 @@ var mainApp = {};
 
 (function() {
     var firebase = app_firebase;
+    //Function to detect on user sign in 
     firebase.auth().onAuthStateChanged(function(user) {
         if (user) {
-            //Signed in
             const PRIVATEREF = firebase.database().ref('userDetails/' + firebase.auth().currentUser.uid + '/private');
             const PUBLICREF = firebase.database().ref('userDetails/' + firebase.auth().currentUser.uid + '/public');
             const GAMEREF = firebase.database().ref('userDetails/' + firebase.auth().currentUser.uid + '/game');
             sessionStorage.setItem('uid', firebase.auth().currentUser.uid);
-            
-            //Write userData to database
+
+            //Write function
             firebase.database().ref('userDetails/' +
-                firebase.auth().currentUser.uid + '/public' + '/highscore/').once('value', (snapshot) => {
-                    //Writing data for user with existing account
+                firebase.auth().currentUser.uid + '/game/' + 'GTN/' + 'totalWins/').once('value', (snapshot) => {
+                    //Write userData to database if first time visiting site 
                     if (snapshot.exists() != true) {
                         console.log("No Record exists!");
 
@@ -39,7 +39,6 @@ var mainApp = {};
                         PUBLICREF.set({
                             uid: firebase.auth().currentUser.uid,
                             photoURL: firebase.auth().currentUser.photoURL,
-                            highscore: snapshot.val(),
                         });
 
                         GAMEREF.child('GTN').set({
@@ -127,3 +126,30 @@ var mainApp = {};
     }
     mainApp.adminCheck = adminCheck;
 })();
+
+window.onload = statCheck;
+
+function statCheck() {
+    var totalWins;
+    var totalLoses;
+
+    firebase.database().ref('userDetails/' +
+        sessionStorage.getItem('uid') + '/game/' + 'GTN/' + 'totalWins/').once('value', (snapshot) => {
+            totalWins = snapshot.val();
+            document.getElementById("totalWins").innerHTML = totalWins;
+        });
+
+    firebase.database().ref('userDetails/' +
+        sessionStorage.getItem('uid') + '/game/' + 'GTN/' + 'Loses/').once('value', (snapshot) => {
+            totalLoses = snapshot.val()
+            document.getElementById("loss").innerHTML = totalLoses;
+        });
+
+    console.log(totalWins)
+    firebase.database().ref('userDetails/' +
+        sessionStorage.getItem('uid') + '/game/' + 'GTN/' + 'WR/').once('value', (snapshot) => {
+            document.getElementById("WR").innerHTML = snapshot.val();
+        });
+
+
+}

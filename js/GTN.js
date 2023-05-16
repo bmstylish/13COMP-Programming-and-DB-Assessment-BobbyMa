@@ -9,25 +9,19 @@
 // v04: Moved all GTN logic into gameManager.js 
 /*********************************************************** */
 
-//Setting iniital constants and variables 
-var GTN = {};
-var player1Score = [];
-var player2Score = [];
 
-//Set up function that resets everything to do with the game, resizes canvas etc
+//Set up function that resets everything to do with the game
 function setupCvs() {
     //Settings game start stats 
     document.getElementById('startBtn').style.display = 'none';
     document.getElementById("gameName").style.display = 'none';
-    document.getElementById("score").innerHTML = "0";
-    document.getElementById("highScore").innerHTML = highScore;
 
     document.getElementById("lobbyWrapper").style.display = 'block';
     document.getElementById("GTN_lobby").style.display = 'block';
     selectAllGame();
 }
 
-//Stops game by setting timer to 0
+//Stops game by reloading page
 function stopGame() {
     document.getElementById('startBtn').style.display = 'block';
     document.getElementById("gameName").style.display = 'block';
