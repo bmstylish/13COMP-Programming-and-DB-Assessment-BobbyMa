@@ -222,8 +222,8 @@
                         <div class="w3-container">
                             <span onclick="document.getElementById('info').style.display='none'"
                                 class="w3-button w3-display-topright">&times;</span>
-                            <h2 class="instruction-heading">Welcome to the Tic Tac Toe</h2>
-                            <p>Click to fill in a block of your color, the goal of the game
+                            <h2 class="instruction-heading">Welcome to Guess The Number</h2>
+                            <p>First, input your number() 
                                 You have 30 seconds to click the balls that will appear on the screen using left
                                 click.
                                 As
@@ -333,7 +333,7 @@
                                     <form onsubmit="return false">
                                         <p>Input your guess:</p>
                                         <input title="guessOppNum" id="guessOppNum" type="text" maxlength="1"
-                                            oninput="this.value=this.value.replace(/[^0-9]/g,'');" />
+                                            oninput="this.value=this.value.replace(/[^0-9]/g,'');" autofocus/>
                                         <button type="submit" id="submit-guess"
                                             onclick="GTN.guessNum(document.getElementById('guessOppNum').value)">Submit</button>
                                     </form>

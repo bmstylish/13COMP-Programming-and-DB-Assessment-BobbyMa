@@ -48,35 +48,33 @@ function redirect() {
     window.location.href = "/index.html"
 }
 
-function calculateWinRate() {
-    var totalWins;
-    var totalLosses;
-
+function calculateWinRate() {    
     // Retrieve total wins
-    var winsPromise = firebase.database().ref('userDetails/' + sessionStorage.getItem('uid') + '/game/GTN/totalWins/').once('value')
-        .then(snapshot => {
-            totalWins = snapshot.val();
-        });
+    var winsPromise = firebase.database().ref('userDetails/' + sessionStorage.getItem('uid') + '/game/' + 'GTN/' + 'totalWins/').get('value').then(snapshot => snapshot.val())
 
     // Retrieve total losses
-    var lossesPromise = firebase.database().ref('userDetails/' + sessionStorage.getItem('uid') + '/game/GTN/Loses/').once('value')
-        .then(snapshot => {
-            totalLosses = snapshot.val();
-        });
+    var lossesPromise = firebase.database().ref('userDetails/' + sessionStorage.getItem('uid') + '/game/' + 'GTN/' + 'Loses/').get('value').then(snapshot => snapshot.val())
 
-    // Wait for both promises to resolve
+    // Wait for both promises to resolve  
     Promise.all([winsPromise, lossesPromise])
-        .then(() => {
-            if (totalWins == 0 && totalLosses == 0) {
+        .then(results => {
+            var totalWins = results[0];
+            var totalLosses = results[1];
+
+            console.log(totalWins);
+            console.log(totalLosses);
+
+            if (totalWins === 0 && totalLosses === 0) {
                 firebase.database().ref('userDetails/' + sessionStorage.getItem('uid') + '/game/GTN').update({
                     WR: 0
                 });
-            } else {
+            }
+            else {
                 var winRate = (totalWins / (totalWins + totalLosses)) * 100;
                 winRate = winRate.toFixed(2);
                 firebase.database().ref('userDetails/' + sessionStorage.getItem('uid') + '/game/GTN').update({
                     WR: winRate
                 });
             }
-        });
+        })
 }

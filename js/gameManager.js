@@ -111,9 +111,12 @@ function guessNum(_num) {
                 }
                 else {
                     console.log("P1 lose")
+                    //Update turn 
                     firebase.database().ref('game/' + 'GTN/' + 'active/').child(sessionStorage.getItem('currentGame')).update({
                         turn: 1
                     });
+                    //Clear input field
+                    document.getElementById('guessOppNum').value = '';
                 }
             });
         };
@@ -127,13 +130,15 @@ function guessNum(_num) {
                     firebase.database().ref('game/' + 'GTN/' + 'active/').child(sessionStorage.getItem('currentGame')).update({
                         win: 'P2'
                     });
-                    //Update P2 score
                 }
                 else {
                     console.log("P2 lose")
+                    //Update turn 
                     firebase.database().ref('game/' + 'GTN/' + 'active/').child(sessionStorage.getItem('currentGame')).update({
                         turn: 0
                     });
+                    //Clear input field
+                    document.getElementById('guessOppNum').value = '';
                 }
             })
         };
