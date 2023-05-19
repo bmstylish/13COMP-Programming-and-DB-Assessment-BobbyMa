@@ -1,0 +1,14 @@
+.required-field::after {
+    content: "*";
+    color: red;
+}
+
+.reg-form{
+    margin-left: 10vw;
+    margin-right: 10vw;
+    padding-bottom: 40px !important;
+}
+
+.gender{
+    padding-top:13px;
+}

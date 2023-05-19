@@ -1,3 +1,9 @@
+// To Do:
+// ! EXPAND REGISTRATION FORM 
+// 1. Add leaderboard 
+// 2. Change Admin to see path
+// 3. Update UI to better suit the game 
+
 var gameManager = {};
 var gameList = [];
 var gameListCount;

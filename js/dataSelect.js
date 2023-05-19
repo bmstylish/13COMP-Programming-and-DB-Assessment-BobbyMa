@@ -191,23 +191,23 @@ function selectAllData() {
                     var highScore = public.highscore;
 
                     var registerData = currentRecord.val().registerData;
-                    var displayName;
+                    var inGameName;
                     var age;
                     if (registerData != null) {
-                        displayName = registerData.displayName;
+                        inGameName = registerData.inGameName;
                         age = registerData.age;
                     }
                     else {
                         displayName = "No Data";
                         age = "No Data";
                     }
-                    addItemsToTable(name, displayName, email, age, uid, highScore);
+                    addItemsToTable(name, inGameName, email, age, uid, highScore);
                 }
             );
         });
 }
 
-function addItemsToTable(name, displayName, email, age, uid, highScore) {
+function addItemsToTable(name, inGameName, email, age, uid, highScore) {
 
     while (userList.length > userListCount) {
         console.log("While Loop running");
@@ -225,11 +225,11 @@ function addItemsToTable(name, displayName, email, age, uid, highScore) {
     var td5 = document.createElement('td');
     var td6 = document.createElement('td');
 
-    userList.push([name, displayName, email, age, uid, highScore]);
+    userList.push([name, inGameName, email, age, uid, highScore]);
 
     td0.innerHTML = ++userNo;
     td1.innerHTML = name;
-    td2.innerHTML = displayName;
+    td2.innerHTML = inGameName;
     td3.innerHTML = email;
     td4.innerHTML = age;
     td5.innerHTML = uid;

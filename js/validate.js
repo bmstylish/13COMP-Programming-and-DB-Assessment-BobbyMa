@@ -1,67 +1,77 @@
 /*********************************************************** */
-// Written by Bobby Ma Term 1 - 2 2022: Game & Firebase Database 
+// Written by Bobby Ma Term 1 - 2 2023: Mutiplayer Game Manager & Firebase Database 
 // This is the validaation process behind user regeister for the website 
 // By selecting a type of data to validate, then checking aginst the criterias  
 // v01: Adding regex to name validation, and finishing name validation
 // v02: Adding age validation 
 // v03: Adding submit function 
+// v04: Changing whole of validate function to make it suitable for this 
+//      project. 19/05
 /*********************************************************** */
 
-//Submit Function, validates data then writes to the firebase realtime database
-function userSubmit() {
-    //Validation 
-    console.log("submit");
-    var age = validate("age", "i_age", "ageErr");
-    var displayName = validate("displayName", "i_displayName", "displayNameErr");
+function valid_validateForm(event) {
+    event.preventDefault();
 
-    console.log(age);
-    if (age != null && displayName != null) {
-        //Writes to the firebase realtime database
-        firebase.database().ref('userDetails/' +
-            firebase.auth().currentUser.uid + '/registerData').set({
-                inGameName: displayName,
-                age: age,
-            });
-        //Displays users displayName on the website, and closes the register model
-        document.getElementById('welMsg').innerHTML = "Welcome " + displayName;
-        sessionStorage.setItem('inGameName', displayName);
-        document.getElementById('register').style.display = "none";
-    }
-}
+    const REGNAME = document.getElementById("i_regName").value
+    const AGE = document.getElementById("i_age").value
+    const GENDER = document.getElementById("i_gender").value
+    const PHONE = document.getElementById("i_phone").value
+    const STREETNUM = document.getElementById("i_stNum").value
+    const STREET = document.getElementById("i_st").value
+    const SUBURB = document.getElementById("i_suburb").value
+    const CITY = document.getElementById("i_city").value
+    const POSTCODE = document.getElementById("i_postcode").value
 
-//Validate Function 
-function validate(_iType, _iValue, _pValueErr) {
-    var displayName = /^[0-9a-zA-z._]{5,16}$/;
-    var iValue;
-    //Selecting type to validate - displayName
-    if (_iType == "displayName") {
-        iValue = document.getElementById(_iValue).value;
-        console.log("DisplayName:" + iValue);
-        if (displayName.test(iValue) == true) {
-            //Return validation pass value
-            document.getElementById(_pValueErr).innerHTML = null;
-            return iValue;
-        }
-        else {
-            //Return validation fail value
-            document.getElementById(_pValueErr).innerHTML = "Please enter a valid username using letters, numbers and . (5-16 characters)";
-            return;
-        }
+    let isValid = true;
+
+    if (!REGNAME.match(/^[0-9a-zA-z._]{5,16}$/)) {
+        document.getElementById("regNameErr").textContent = "Please enter a valid username using letters, numbers and . (5-16 characters)";
+        isValid = false;
     }
 
-    //Selecting type to validate - age
-    if (_iType == "age") {
-        iValue = document.getElementById(_iValue).value;
-        console.log("Age:" + iValue);
-        if (iValue > 0 && iValue < 100) {
-            //Return validation pass value
-            document.getElementById(_pValueErr).innerHTML = null;
-            return iValue;
-        }
-        else {
-            //Return validation fail value
-            document.getElementById(_pValueErr).innerHTML = "Please enter an age between 1-99";
-            return;
-        }
+    if (isNaN(AGE) || AGE <= 0) {
+        document.getElementById("ageErr").textContent = "Please enter a valid age between 1-99";
+        isValid = false;
     }
+
+    if (!GENDER) {
+        document.getElementById("genderErr").textContent = "Please select a gender";
+        isValid = false;
+    }
+
+    if (isNaN(PHONE)) {
+        document.getElementById("phoneErr").textContent = "Please enter a valid phone number";
+        isValid = false;
+    }
+
+    if (!STREETNUM.trim()) {
+        document.getElementById("stNumErr").textContent = "Please enter a valid street number";
+        isValid = false;
+    }
+
+    if (!STREET.trim()) {
+        document.getElementById("stErr").textContent = "Please enter a valid street name";
+        isValid = false;
+    }
+
+    if (!SUBURB.trim()) {
+        document.getElementById("suburbErr").textContent = "Please enter a valid suburb";
+        isValid = false;
+    }
+
+    if (!CITY.trim()) {
+        document.getElementById("cityErr").textContent = "Please enter a valid city name";
+        isValid = false;
+    }
+
+    if (!POSTCODE.match(/^\d{4}$/) || isNaN(POSTCODE)) {
+        document.getElementById("cityErr").textContent = "Please enter a valid postcode";
+        isValid = false;
+    }
+
+    if (isValid) {
+        //Writes to database and redirect back to index.html
+        console.log("valid Input")
+    }
+
 }

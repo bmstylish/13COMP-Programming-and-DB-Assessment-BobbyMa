@@ -4,8 +4,8 @@
 <head>
     <title>Bobby Ma 13CompSci - Gaming Website</title>
     <meta charset="UTF-8">
-    <meta name="description" content="12COMP mini skills">
-    <meta name="keywords" content="12COMP, mini skills">
+    <meta name="description" content="13COMP Gaming">
+    <meta name="keywords" content="13COMP, Gaming">
     <meta name="author" content="Mr Bob">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- P5.js *************************************************-->
@@ -26,7 +26,6 @@
     <script src="https://code.jquery.com/jquery-latest.min.js"></script>
     <script src="js/firebase.js"></script>
     <script src="js/main.js"></script>
-    <script src="js/validate.js"></script>
     <link href="css/style.css" rel="stylesheet">
 </head>
 
@@ -123,7 +122,8 @@
                 </header>
 
                 <div class="w3-responsive container">
-                    <table class="table table-hover table-bordered">
+                    <!-- User Table -->
+                    <table id="usersTable" class="table table-hover table-bordered">
                         <caption>List of users</caption>
                         <thead class="thead-light">
                             <tr>
@@ -140,6 +140,17 @@
 
                         <tbody id="tbody1">
                         </tbody>
+                    </table>
+                    <!-- Games Table  -->
+                    <table>
+                        <thead id="unActiveGames" class="thead-light">
+                            <tr>
+                                <th>Game Name</th>
+                                <th>Time</th>
+                                <th>Control Center</th>
+                            </tr>
+                        </thead>
+                        
                     </table>
                 </div>
 

@@ -61,16 +61,7 @@ var mainApp = {};
                         console.log("register data doesn't exist");
                         //Displays Register Model
                         document.getElementById('register').style.display = "block";
-                        //Sets user profile photo
-                        firebase.database().ref('userDetails/' + firebase.auth().currentUser.uid + '/public' + '/photoURL').on('value', (snapshot) => {
-                            console.log(snapshot.val());
-                            document.getElementById("avatar").src = snapshot.val();
-                        });
-                        //Sets userName Welcome message 
-                        firebase.database().ref('userDetails/' + firebase.auth().currentUser.uid + '/private' + '/name').on('value', (snapshot) => {
-                            console.log(snapshot.val());
-                            document.getElementById("userName").innerHTML = snapshot.val();
-                        });
+                        window.location.replace("reg.html");
                     }
                 });
         }
