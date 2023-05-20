@@ -54,8 +54,7 @@ var mainApp = {};
                 firebase.auth().currentUser.uid + '/registerData').on('value', (snapshot) => {
                     if (snapshot.exists()) {
                         console.log("register data exist");
-                        document.getElementById('welMsg').innerHTML = "Welcome " + snapshot.child("inGameName").val();
-                        sessionStorage.setItem('inGameName', snapshot.child("inGameName").val());
+                        document.getElementById('welMsg').innerHTML = "Welcome " + sessionStorage.getItem("inGameName");
                     }
                     else {
                         console.log("register data doesn't exist");
@@ -141,6 +140,4 @@ function statCheck() {
         sessionStorage.getItem('uid') + '/game/' + 'GTN/' + 'WR/').once('value', (snapshot) => {
             document.getElementById("WR").innerHTML = snapshot.val();
         });
-
-
 }

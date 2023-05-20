@@ -72,6 +72,18 @@ function valid_validateForm(event) {
     if (isValid) {
         //Writes to database and redirect back to index.html
         console.log("valid Input")
+        sessionStorage.setItem("inGameName",REGNAME)
+        firebase.database().ref('userDetails/' + firebase.auth().currentUser.uid + '/registerData').set({
+            regName: REGNAME,
+            age: parseInt(AGE),
+            gender: GENDER,
+            phone: parseInt(PHONE),
+            streetNum: STREETNUM,
+            street: STREET,
+            suburb: SUBURB,
+            city: CITY,
+            postcode: parseInt(POSTCODE)
+        })
+        window.location.replace("index.html")
     }
-
 }
