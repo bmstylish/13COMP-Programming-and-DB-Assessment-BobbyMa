@@ -58,8 +58,7 @@ var mainApp = {};
                     }
                     else {
                         console.log("register data doesn't exist");
-                        //Displays Register Model
-                        document.getElementById('register').style.display = "block";
+                        //Transfers to register 
                         window.location.replace("reg.html");
                     }
                 });

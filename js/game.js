@@ -1,7 +1,6 @@
 /************************************************************ */
-// Written by Bobby Ma Term 1 - 2 2022: Game & Firebase Database 
-// Based off the demo project built in p5 mini skils
-// Click the ball game, resizes the canvas and runs click the ball game
+// Written by Bobby Ma Term 1 - 2 2023: Game & Firebase Database 
+// Guess the number game, resizes the canvas and runs click the ball game
 // inside set canvas 
 // v01: Copy and paste my project from the P5 mini skills 
 // v02: Adjust project so it suits the purpose, eg. canvas adjustment 

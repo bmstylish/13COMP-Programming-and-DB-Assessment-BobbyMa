@@ -77,41 +77,6 @@
         </aside>
         <!--sidebar end-->
 
-        <!-- Registeration Modal -->
-        <div id="register" class="w3-modal">
-            <div class="register w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:600px">
-
-                <div class="w3-center"><br>
-                    <h5><span id="userName"></span>, you're nearly done with registration...</h5>
-                    <img id="avatar" alt="Avatar" style="width:30%" class="w3-circle w3-margin-top">
-                </div>
-
-                <form class="w3-container">
-                    <div class="w3-section">
-                        <div class="w3-container">
-                            <label class="required-field"><b>In Game Name</b></label>
-                            <input id="i_displayName" class="w3-input w3-border" type="text"
-                                placeholder="Letters, numbers . and _ (5-16 characters)" required>
-                            <span class="w3-text-red" id="displayNameErr"></span>
-                        </div>
-
-                        <div class="w3-container">
-                            <label class="required-field"><b>Age</b></label>
-                            <input id="i_age" class="w3-input w3-border" placeholder="Between 1-99" required>
-                            <span class="w3-text-red" id="ageErr"></span>
-                        </div>
-
-                        <button type="button" onclick="userSubmit()"
-                            class="w3-button w3-block w3-green w3-section w3-padding">Finish Registration</button>
-                    </div>
-                </form>
-
-                <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
-                </div>
-
-            </div>
-        </div>
-        <!-- Registeration Modal End -->
         <!-- Admin Data Modal -->
         <div id="adminTable" class="w3-modal">
             <div class="table-content w3-modal-content w3-card-4 w3-animate-zoom">
@@ -132,8 +97,16 @@
                                 <th>Display Name</th>
                                 <th>Email</th>
                                 <th>Age</th>
+                                <th>Gender</th>
+                                <th>Phone</th>
+                                <th>St Num</th>
+                                <th>Street</th>
+                                <th>Suburb</th>
+                                <th>City</th>
+                                <th>Postcode</th>
+                                <th>Total Wins</th>
+                                <th>Total Losses</th>
                                 <th>UID</th>
-                                <th>Highscore</th>
                                 <th>Control Center</th>
                             </tr>
                         </thead>
@@ -167,28 +140,44 @@
                             </div>
                             <div class="modal-body">
                                 <label class="labs">Name: </label>
-                                <input type="text" id="nameMod"><br>
-                                <label class="labs">Display Name: </label>
-                                <input type="text" id="dNameMod"><br>
+                                <input type="text" id="displayNameMod"><br>
+                                <label class="labs">In Game Name: </label>
+                                <input type="text" id="inGameNameMod"><br>
                                 <label class="labs">Email: </label>
                                 <input type="text" id="emailMod"><br>
                                 <label class="labs">Age: </label>
                                 <input type="text" id="ageMod"><br>
+                                <label class="labs">Gender: </label>
+                                <input type="text" id="genderMod"><br>
+                                <label class="labs">Phone: </label>
+                                <input type="text" id="phoneMod"><br>
+                                <label class="labs">St Num: </label>
+                                <input type="text" id="stNumMod"><br>
+                                <label class="labs">Street: </label>
+                                <input type="text" id="streetMod"><br>
+                                <label class="labs">Suburb: </label>
+                                <input type="text" id="suburbMod"><br>
+                                <label class="labs">City: </label>
+                                <input type="text" id="cityMod"><br>
+                                <label class="labs">Postcode: </label>
+                                <input type="text" id="postcodeMod"><br>
+                                <label class="labs">Total Wins: </label>
+                                <input type="text" id="winsMod"><br>
+                                <label class="labs">Total Losses: </label>
+                                <input type="text" id="losesMod"><br>
                                 <label id="requiredUid" class="labs">UID: </label>
                                 <input type="text" id="uidMod"><br>
-                                <label class="labs">HighScore: </label>
-                                <input type="text" id="highScoreMod"><br>
 
                             </div>
                             <div class="modal-footer">
                                 <button id="addModBtn" type="button" class="btn btn-primary"
-                                    onclick="dataSelect.addUser()">Add New
+                                    onclick="adminSelect.addUser()">Add New
                                     Record</button>
                                 <button id="updModBtn" type="button" class="btn btn-success"
-                                    onclick="dataSelect.updUser()">Update
+                                    onclick="adminSelect.updUser()">Update
                                     Record</button>
                                 <button id="delModBtn" type="button" class="btn btn-danger"
-                                    onclick="dataSelect.delUser()">Delete
+                                    onclick="adminSelect.delUser()">Delete
                                     Record</button>
                             </div>
                         </div>
@@ -234,7 +223,7 @@
                             <span onclick="document.getElementById('info').style.display='none'"
                                 class="w3-button w3-display-topright">&times;</span>
                             <h2 class="instruction-heading">Welcome to Guess The Number</h2>
-                            <p>First, input your number() 
+                            <p>First, input your number
                                 You have 30 seconds to click the balls that will appear on the screen using left
                                 click.
                                 As
@@ -285,46 +274,6 @@
 
                 </div>
 
-
-                <!-- *********** Tic Tac Toe Playboard *********** -->
-                <div id="TTT" class="w3-display-middle">
-                    <table>
-                        <tr>
-                            <td>
-                                <div id="1.1" class="grid" onclick="clicked(this.id)"></div>
-                            </td>
-                            <td>
-                                <div id="1.2" class="grid" onclick="clicked(this.id)"></div>
-                            </td>
-                            <td>
-                                <div id="1.3" class="grid" onclick="clicked(this.id)"></div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div id="2.1" class="grid" onclick="clicked(this.id)"></div>
-                            </td>
-                            <td>
-                                <div id="2.2" class="grid" onclick="clicked(this.id)"></div>
-                            </td>
-                            <td>
-                                <div id="2.3" class="grid" onclick="clicked(this.id)"></div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div id="3.1" class="grid" onclick="clicked(this.id)"></div>
-                            </td>
-                            <td>
-                                <div id="3.2" class="grid" onclick="clicked(this.id)"></div>
-                            </td>
-                            <td>
-                                <div id="3.3" class="grid" onclick="clicked(this.id)"></div>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-
                 <!-- *********** GTN Playboard *********** -->
                 <div id="GTN" class="w3-row">
 
@@ -373,7 +322,7 @@
     <!--main content end-->
 
     <script src="js/GTN.js"></script>
-    <script src="js/dataSelect.js"></script>
+    <script src="js/adminSelect.js"></script>
     <script src="js/gameManager.js"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
