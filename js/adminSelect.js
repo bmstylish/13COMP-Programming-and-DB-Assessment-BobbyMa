@@ -241,7 +241,7 @@ var userNo;
 function selectAllData() {
     document.getElementById("tbody1").innerHTML = "";
     userNo = 0;
-    firebase.database().ref('userDetails').on('value',
+    firebase.database().ref('userDetails').once('value',
         function(AllRecords) {
             AllRecords.forEach(
                 function(currentRecord) {

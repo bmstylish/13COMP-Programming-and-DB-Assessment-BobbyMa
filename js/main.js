@@ -51,9 +51,10 @@ var mainApp = {};
 
             //User Registering Data
             firebase.database().ref('userDetails/' +
-                firebase.auth().currentUser.uid + '/registerData').on('value', (snapshot) => {
+                firebase.auth().currentUser.uid + '/registerData/' + '/regName/').on('value', (snapshot) => {
                     if (snapshot.exists()) {
                         console.log("register data exist");
+                        sessionStorage.setItem("inGameName", snapshot.val())
                         document.getElementById('welMsg').innerHTML = "Welcome " + sessionStorage.getItem("inGameName");
                     }
                     else {

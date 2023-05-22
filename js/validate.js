@@ -78,7 +78,7 @@ function valid_validateForm(event) {
             age: parseInt(AGE),
             gender: GENDER,
             phone: parseInt(PHONE),
-            streetNum: STREETNUM,
+            stNum: STREETNUM,
             street: STREET,
             suburb: SUBURB,
             city: CITY,

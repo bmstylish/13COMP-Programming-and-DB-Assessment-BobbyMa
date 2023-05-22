@@ -3,10 +3,16 @@
 // 15/5 v01: Created js
 /*********************************************************** */
 
-//Onload function
-window.onload = winLose;
+//Onload function on 
+if(window.location.href.match('win_lose.html')){
+    window.onload = winLose;
+}
+else if (window.location.href.match('index.html')){
+    calculateWinRate();
+}
 
 function winLose() {
+    console.log("Running winLose")
     if (sessionStorage.getItem('status') == 'win') {
         document.getElementById('status').innerHTML = "Win";
 
@@ -58,8 +64,8 @@ function calculateWinRate() {
     // Wait for both promises to resolve  
     Promise.all([winsPromise, lossesPromise])
         .then(results => {
-            var totalWins = results[0];
-            var totalLosses = results[1];
+            var totalWins = parseInt(results[0]);
+            var totalLosses = parseInt(results[1]);
 
             console.log(totalWins);
             console.log(totalLosses);
