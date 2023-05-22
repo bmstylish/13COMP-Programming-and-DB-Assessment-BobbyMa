@@ -1,13 +1,18 @@
 /*********************************************************** */
 // Written by Bobby Ma Term 1 - 2 2023: Mutiplayer Game Manager & Firebase Database 
-// 15/5 v01: Created js
+// 15/5 v01: Created js, checks sesssion storage for win condition
+// 16/5 v02: Reset default on function called after.
+//           Implentmenting winrate calculation function 
+// 18/5 v03: Added winrate calculation. Discovered that snapshot.val() returns 
+//           promise hence cannot retrive value directly but need to resolve 
+//           first. Calculate winrate function working. 
 /*********************************************************** */
 
 //Onload function on 
 if(window.location.href.match('win_lose.html')){
     window.onload = winLose;
 }
-else if (window.location.href.match('index.html')){
+else if (window.location.href.match('index.html') || window.location.href.match('/') ){
     calculateWinRate();
 }
 
@@ -55,6 +60,8 @@ function redirect() {
 }
 
 function calculateWinRate() {    
+    console.log("calcWinrate")
+    
     // Retrieve total wins
     var winsPromise = firebase.database().ref('userDetails/' + sessionStorage.getItem('uid') + '/game/' + 'GTN/' + 'totalWins/').get('value').then(snapshot => snapshot.val())
 

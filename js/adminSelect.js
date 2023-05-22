@@ -5,10 +5,13 @@
 // v01: Creating Admin Table
 // v02: Table Compeleted, creates new js for table creation functions 
 // v03: Simplfying table functions
-//
-/*********************************************************** */
 
-//AGE IS AT 4
+// 2023 Versions
+// v01: Added new fields, gender, phone etc. 
+// v02: Implmented mods of these new fields so that admin 
+//      can change the values
+// v03: 
+/*********************************************************** */
 
 //Global variables 
 var adminSelect = {};

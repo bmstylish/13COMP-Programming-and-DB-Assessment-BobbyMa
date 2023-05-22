@@ -1,0 +1,50 @@
+/*********************************************************** */
+// Written by Bobby Ma Term 1 - 2 2023: Mutiplayer Game Manager & Firebase Database 
+// Created on 22/5
+// v01: Able to retrive data successfully, however, 
+//      However, due to the nature of firebase method,
+//      the value is ascending
+// v02: Added reverse function, however rank is not inversed alongside 
+// v03: Fixed by getting numChildren() instead of setting default 
+/*********************************************************** */
+var leaderboard = {};
+
+function addToBoard() {
+    document.getElementById('ranking').style.display = 'block';
+
+    var leaderboardTable = document.getElementById('rankBoard').getElementsByTagName('tbody')[0];
+    var userDetailRef = firebase.database().ref("userDetails");
+
+    //Clears existing rows 
+    leaderboardTable.innerHTML = '';
+
+    userDetailRef.orderByChild("game/" + "GTN/" + "totalWins").once("value", function(snapshot) {
+        var rank = snapshot.numChildren();
+
+        snapshot.forEach(function(userSnapshot) {
+            var totalWins = userSnapshot.child("game/" + "GTN/" + "totalWins/").val();
+            var inGameName = userSnapshot.child("registerData/" + "regName/").val();
+
+            var row = leaderboardTable.insertRow();
+
+            var rankCell = row.insertCell(0);
+            var nameCell = row.insertCell(1);
+            var winsCell = row.insertCell(2);
+
+            rankCell.textContent = rank;
+            nameCell.textContent = inGameName;
+            winsCell.textContent = totalWins;
+
+            rank--;
+        });
+        
+        var rows = Array.from(leaderboardTable.rows);
+        rows.reverse();
+        leaderboardTable.innerHTML = "";
+        rows.forEach(function(row) {
+            leaderboardTable.appendChild(row);
+        })
+    });
+}
+
+leaderboard.addToBoard = addToBoard;

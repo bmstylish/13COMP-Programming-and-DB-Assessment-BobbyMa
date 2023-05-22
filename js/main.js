@@ -1,5 +1,5 @@
 /************************************************************/
-// Written by Bobby Ma Term 1 - 2 2022: Game & Firebase Database 
+// Written by Bobby Ma Term 1 - 2 2023: Mutiplayer Game Manager & Firebase Database 
 // The main registration functions that regestier user logins and writes to 
 // the firebase database, creates local variables for user, eg.score, name 
 // v01: Allows user login and user signout  
@@ -9,6 +9,13 @@
 // v05: Finish highscore update, checks for highscore and updates highscore
 // v06: Starts the registration function, creates validate.js 
 // v07: Finish validation function inorder, then finished registration function, and updates firebase realtime database 
+
+// 2023 Versions 
+// v01: Changed the reg data into html, stops checking for highscore,
+//      checking for totalwins instead (including creation of game path), 
+//      redirect to reg.html instead of popping up reg modal 
+// v02: Added function stats check, to display the 3 core stats on index
+//      on load
 /*********************************************************** */
 
 //Global Variables 
@@ -117,6 +124,7 @@ var mainApp = {};
     mainApp.adminCheck = adminCheck;
 })();
 
+//Displays stats on index.html laod
 window.onload = statCheck;
 
 function statCheck() {
@@ -135,7 +143,7 @@ function statCheck() {
             document.getElementById("loss").innerHTML = totalLoses;
         });
 
-    console.log(totalWins)
+
     firebase.database().ref('userDetails/' +
         sessionStorage.getItem('uid') + '/game/' + 'GTN/' + 'WR/').once('value', (snapshot) => {
             document.getElementById("WR").innerHTML = snapshot.val();
