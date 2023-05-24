@@ -86,11 +86,13 @@ var mainApp = {};
 
     });
 
+    //Logout function 
     function logOut() {
         firebase.auth().signOut();
     }
     mainApp.logOut = logOut;
 
+    //Checking for admin UID 
     var once = false;
     function adminCheck() {
         console.log("running");
@@ -101,7 +103,7 @@ var mainApp = {};
         adminRef.on('value', (snapshot) => {
             adminUID = snapshot.val();
             if (adminUID == userUID) {
-                //Only displays for admin users
+                //Only displays admin signin for admin users
                 alert("You're Admin");
                 document.getElementById('adminButton').style.display = "block";
 
@@ -114,7 +116,7 @@ var mainApp = {};
                 }
             }
             else {
-                //Even if accidently displayed, still has procedures]
+                //Even if accidently displayed, still has procedures
                 alert("Access denied");
                 console.log("admin: " + adminUID);
                 console.log("user: " + userUID);
@@ -126,7 +128,6 @@ var mainApp = {};
 
 //Displays stats on index.html laod
 window.onload = statCheck;
-
 function statCheck() {
     var totalWins;
     var totalLoses;

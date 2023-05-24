@@ -6,6 +6,8 @@
 // 18/5 v03: Added winrate calculation. Discovered that snapshot.val() returns 
 //           promise hence cannot retrive value directly but need to resolve 
 //           first. Calculate winrate function working. 
+// 24/5 v04: Tried to fix a bug where WR sometimes will be displayed as NaN
+//           But think its more of a firebase issue than the code
 /*********************************************************** */
 
 //Onload function on 
@@ -34,7 +36,7 @@ function winLose() {
             });
 
         calculateWinRate();
-
+        
         //Redirects back to homepage 
         setTimeout(redirect, 5000);
     }
@@ -48,8 +50,8 @@ function winLose() {
         //Resetting local storage data 
         sessionStorage.removeItem('currentGame');
 
-
         calculateWinRate();
+
         //Redirects back to homepage
         setTimeout(redirect, 5000);
     }
@@ -77,7 +79,7 @@ function calculateWinRate() {
             console.log(totalWins);
             console.log(totalLosses);
 
-            if (totalWins === 0 && totalLosses === 0) {
+            if (totalWins === 0) {
                 firebase.database().ref('userDetails/' + sessionStorage.getItem('uid') + '/game/GTN').update({
                     WR: 0
                 });

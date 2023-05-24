@@ -1,5 +1,5 @@
 /*********************************************************** */
-// Written by Bobby Ma Term 1 - 2 2022: Game & Firebase Database 
+// Written by Bobby Ma Term 1 - 2 2023: Mutiplayer Game & Firebase Database 
 // Connecting website to backend firebase realtime database 
 // v01: Copy and paste all essential infomation from realtime firebase database 
 // to this document(firebase.js)

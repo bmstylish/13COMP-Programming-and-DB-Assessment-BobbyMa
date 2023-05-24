@@ -202,10 +202,10 @@
                 <div class="w3-container">
                     <span onclick="document.getElementById('ranking').style.display='none'"
                         class="w3-button w3-display-topright">&times;</span>
-                    <table id="rankBoard">
+                    <table id="rankBoard" class="w3-table w3-bordered w3-hoverable">
                         <thead>
                             <tr>
-                                <th>Rank</th>
+                                <th>Rank #</th>
                                 <th>Name</th>
                                 <th>Total Wins</th>
                             </tr>
@@ -278,7 +278,7 @@
 
                 <!-- Guess the Number Mutiplayer Lobby -->
                 <div id="lobbyWrapper">
-                    <button onclick="gameManager.createGame()"
+                    <button id="createBtn" onclick="gameManager.createGame()"
                         class="createBtn w3-display-topright w3-margin w3-btn w3-white w3-border w3-border-green w3-round-xlarge">Create</button>
 
                     <div class="refresh">

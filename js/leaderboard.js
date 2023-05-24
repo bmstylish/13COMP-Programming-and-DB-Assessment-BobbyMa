@@ -9,6 +9,7 @@
 /*********************************************************** */
 var leaderboard = {};
 
+//Reads all wins related detail and output onto ranking table
 function addToBoard() {
     document.getElementById('ranking').style.display = 'block';
 
@@ -18,9 +19,11 @@ function addToBoard() {
     //Clears existing rows 
     leaderboardTable.innerHTML = '';
 
+    
     userDetailRef.orderByChild("game/" + "GTN/" + "totalWins").once("value", function(snapshot) {
         var rank = snapshot.numChildren();
 
+        //Reads and stores data in local variables
         snapshot.forEach(function(userSnapshot) {
             var totalWins = userSnapshot.child("game/" + "GTN/" + "totalWins/").val();
             var inGameName = userSnapshot.child("registerData/" + "regName/").val();
@@ -37,7 +40,8 @@ function addToBoard() {
 
             rank--;
         });
-        
+
+        //Reversing data 
         var rows = Array.from(leaderboardTable.rows);
         rows.reverse();
         leaderboardTable.innerHTML = "";
