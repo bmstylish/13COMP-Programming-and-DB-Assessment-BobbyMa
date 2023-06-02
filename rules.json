@@ -1,9 +1,56 @@
 Firebase Rules
 v1: Implemented rules where only authorised user can write and read from the firebase 
+v2: Increased more path, and added validation to the registration values
 
 {
   "rules": {
-    ".read": "auth.uid !== null",
-    ".write": "auth.uid !== null"
+    "userDetails": {
+        ".read": "auth.uid !== null",
+      "$uid": {
+        "private": {
+          ".read": "$uid === auth.uid",
+          ".write": "$uid === auth.uid"
+        },
+        "public": {
+          ".read": "true",
+          ".write": "$uid === auth.uid"
+        },
+        "registerData": {
+          ".read": "true",
+          ".write": "$uid === auth.uid",
+          	//the value of "age" must be a number between 1-100/
+            "age":{ 
+            	".validate": "newData.isNumber() &&
+                        newData.val() >= 1 &&
+                        newData.val() <= 100"
+          },
+            //the value of "postcode" must be a number 
+            "postcode": {
+              ".validate": "newData.isNumber()"
+            }
+        },
+        "game": {
+          ".read": "auth.uid !== null",
+          ".write": "$uid === auth.uid || root.child('userDetails').child($uid).child('public').exists()",
+          "GTN": {
+            ".read": "auth.uid !== null",
+            ".write": "$uid === auth.uid || root.child('userDetails').child($uid).child('public').exists()",
+            "totalWins": {
+              ".read": "true",
+              ".write": "true"
+            },
+            "Loses": {
+              ".read": "true",
+              ".write": "true"
+            }
+          }
+        }
+      }
+    },
+    //Userlobby Games
+    "game":{
+      ".read": "auth.uid !== null",
+      ".write": "auth.uid !== null",
+    }
   }
 }

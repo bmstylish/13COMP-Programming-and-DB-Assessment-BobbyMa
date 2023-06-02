@@ -11,10 +11,10 @@
 /*********************************************************** */
 
 //Onload function on 
-if(window.location.href.match('win_lose.html')){
+if (window.location.href.match('win_lose.html')) {
     window.onload = winLose;
 }
-else if (window.location.href.match('index.html') || window.location.href.match('/') ){
+else if (window.location.href.match('index.html') || window.location.href.match('/')) {
     calculateWinRate();
 }
 
@@ -36,7 +36,7 @@ function winLose() {
             });
 
         calculateWinRate();
-        
+
         //Redirects back to homepage 
         setTimeout(redirect, 5000);
     }
@@ -61,9 +61,9 @@ function redirect() {
     window.location.href = "/index.html"
 }
 
-function calculateWinRate() {    
+function calculateWinRate() {
     console.log("calcWinrate")
-    
+
     // Retrieve total wins
     var winsPromise = firebase.database().ref('userDetails/' + sessionStorage.getItem('uid') + '/game/' + 'GTN/' + 'totalWins/').get('value').then(snapshot => snapshot.val())
 
@@ -76,10 +76,10 @@ function calculateWinRate() {
             var totalWins = parseInt(results[0]);
             var totalLosses = parseInt(results[1]);
 
-            console.log(totalWins);
+            console.log("totalWins:" + totalWins);
             console.log(totalLosses);
 
-            if (totalWins === 0) {
+            if (totalWins == 0) {
                 firebase.database().ref('userDetails/' + sessionStorage.getItem('uid') + '/game/GTN').update({
                     WR: 0
                 });

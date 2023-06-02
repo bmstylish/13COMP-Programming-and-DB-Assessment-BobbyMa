@@ -83,7 +83,8 @@ function valid_validateForm(event) {
             suburb: SUBURB,
             city: CITY,
             postcode: parseInt(POSTCODE)
-        })
-        window.location.replace("index.html")
+        });
+        
+        window.location.replace("index.html");
     }
 }

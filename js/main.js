@@ -127,26 +127,33 @@ var mainApp = {};
 })();
 
 //Displays stats on index.html laod
-window.onload = statCheck;
+window.onload = statCheck();
 function statCheck() {
     var totalWins;
     var totalLoses;
 
+    //Sets total wins 
     firebase.database().ref('userDetails/' +
         sessionStorage.getItem('uid') + '/game/' + 'GTN/' + 'totalWins/').once('value', (snapshot) => {
             totalWins = snapshot.val();
             document.getElementById("totalWins").innerHTML = totalWins;
         });
 
+    //Sets total Losses
     firebase.database().ref('userDetails/' +
         sessionStorage.getItem('uid') + '/game/' + 'GTN/' + 'Loses/').once('value', (snapshot) => {
             totalLoses = snapshot.val()
             document.getElementById("loss").innerHTML = totalLoses;
         });
 
-
+    //Sets WR
     firebase.database().ref('userDetails/' +
         sessionStorage.getItem('uid') + '/game/' + 'GTN/' + 'WR/').once('value', (snapshot) => {
-            document.getElementById("WR").innerHTML = snapshot.val();
+            if(snapshot.val() == "NaN"){
+                document.getElementById("WR").innerHTML = 0;
+            }
+            else{
+                document.getElementById("WR").innerHTML = snapshot.val();
+            }
         });
 }
