@@ -1,6 +1,7 @@
 Firebase Rules
 v1: Implemented rules where only authorised user can write and read from the firebase 
 v2: Increased more path, and added validation to the registration values
+v3: Added admin editing rights to all user stored data
 
 {
   "rules": {
@@ -8,16 +9,16 @@ v2: Increased more path, and added validation to the registration values
         ".read": "auth.uid !== null",
       "$uid": {
         "private": {
-          ".read": "$uid === auth.uid",
-          ".write": "$uid === auth.uid"
+          ".read": "$uid === auth.uid || auth.uid === '6Z8lSeM2ebdBK32BkcXoYwoJBTp1'",
+          ".write": "$uid === auth.uid || auth.uid === '6Z8lSeM2ebdBK32BkcXoYwoJBTp1'"
         },
         "public": {
           ".read": "true",
-          ".write": "$uid === auth.uid"
+          ".write": "$uid === auth.uid || auth.uid === '6Z8lSeM2ebdBK32BkcXoYwoJBTp1' "
         },
         "registerData": {
           ".read": "true",
-          ".write": "$uid === auth.uid",
+          ".write": "$uid === auth.uid || auth.uid === '6Z8lSeM2ebdBK32BkcXoYwoJBTp1'",
           	//the value of "age" must be a number between 1-100/
             "age":{ 
             	".validate": "newData.isNumber() &&
@@ -31,10 +32,10 @@ v2: Increased more path, and added validation to the registration values
         },
         "game": {
           ".read": "auth.uid !== null",
-          ".write": "$uid === auth.uid || root.child('userDetails').child($uid).child('public').exists()",
+          ".write": "$uid === auth.uid || root.child('userDetails').child($uid).child('public').exists() || auth.uid === '6Z8lSeM2ebdBK32BkcXoYwoJBTp1'",
           "GTN": {
             ".read": "auth.uid !== null",
-            ".write": "$uid === auth.uid || root.child('userDetails').child($uid).child('public').exists()",
+            ".write": "$uid === auth.uid || root.child('userDetails').child($uid).child('public').exists() || auth.uid === '6Z8lSeM2ebdBK32BkcXoYwoJBTp1'",
             "totalWins": {
               ".read": "true",
               ".write": "true"
@@ -54,3 +55,4 @@ v2: Increased more path, and added validation to the registration values
     }
   }
 }
+
