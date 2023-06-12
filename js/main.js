@@ -127,10 +127,20 @@ var mainApp = {};
 })();
 
 //Displays stats on index.html laod
-window.onload = statCheck();
+window.onload = function() {
+    firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+            statCheck()
+        }
+    })
+};
+
 function statCheck() {
     var totalWins;
     var totalLoses;
+
+    sessionStorage.setItem('gameStart', false)
+
 
     //Sets total wins 
     firebase.database().ref('userDetails/' +
@@ -147,13 +157,15 @@ function statCheck() {
         });
 
     //Sets WR
-    firebase.database().ref('userDetails/' +
-        sessionStorage.getItem('uid') + '/game/' + 'GTN/' + 'WR/').once('value', (snapshot) => {
-            if(snapshot.val() == "NaN"){
-                document.getElementById("WR").innerHTML = 0;
-            }
-            else{
-                document.getElementById("WR").innerHTML = snapshot.val();
-            }
-        });
+    setTimeout(() => {
+        firebase.database().ref('userDetails/' +
+            sessionStorage.getItem('uid') + '/game/' + 'GTN/' + 'WR/').once('value', (snapshot) => {
+                if (snapshot.val() == "NaN") {
+                    document.getElementById("WR").innerHTML = 0;
+                }
+                else {
+                    document.getElementById("WR").innerHTML = snapshot.val();
+                }
+            });
+    }, 500)
 }

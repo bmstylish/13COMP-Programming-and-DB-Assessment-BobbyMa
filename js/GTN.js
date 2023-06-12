@@ -13,6 +13,7 @@
 // v06: Added win lose update, where local session storage will award the winnner 
 //      the win flag 
 // v07: Implmeneted lose on countdown end feature & disconnect features for unactive games 
+// v08: Fixed bug with disconnect features 
 /*********************************************************** */
 
 // To Do:
@@ -21,11 +22,16 @@
 
 var gameManager = {};
 var gameList = [];
+var selfCancel = false;
+var waitingForNumRef;
 
 function readNum() {
     var guessNum = document.getElementById('guessNum').value;
     document.getElementById('initalNum').style.display = 'none';
-    document.getElementById('guessOpp').style.display = 'block';
+    document.getElementById("guessOpp").style.display = 'block';
+    document.getElementById("submit-guess").style.display = 'none';
+    document.getElementById("sync").innerHTML = "Waiting for Oppnent...";
+    document.getElementById("initalGuessNum").innerHTML = guessNum;
 
     if (sessionStorage.getItem('currentGame') == firebase.auth().currentUser.uid) {
         //Player 1 
@@ -38,12 +44,14 @@ function readNum() {
         //Player 2 
         firebase.database().ref('game/' + 'GTN/' + 'active/').child(sessionStorage.getItem('currentGame')).update({
             twoNum: guessNum
-        })
+        });
     }
 }
 
 // Function to create a new game in Game Lobby
 function createGame() {
+    selfCancel = false;
+    
     firebase.database().ref('game/' + 'GTN/' + 'unActive/' + firebase.auth().currentUser.uid).set({
         oneUID: firebase.auth().currentUser.uid,
         twoUID: '',
@@ -84,23 +92,62 @@ function waitingForGame() {
             waitingForNum();
         }
     });
+    //Execute when the button is clicked
+    document.getElementById("cancelLobby").addEventListener("click", function() {
+        firebase.database().ref('game/' + 'GTN/' + 'unActive/' + firebase.auth().currentUser.uid).remove();
+        sessionStorage.removeItem('currentGame');
+        document.getElementById("GTN").style.display = 'none';
+
+        document.getElementById("lobbyWrapper").style.display = 'block';
+        document.getElementById("GTN_lobby").style.display = 'block';
+        selectAllGame();
+        selfCancel = true;
+    });
 }
 
 // Function to listen for both players to select numbers
 function waitingForNum() {
+    console.log("waitingForNum")
+    
+     firebase.database().ref('game/' + 'GTN/' + 'active/' + sessionStorage.getItem('currentGame') + '/').once('value').then((snapshot)=>{
+         if(sessionStorage.getItem('uid') == sessionStorage.getItem('currentGame')){
+             document.getElementById('oppName').innerHTML = snapshot.val().twoDN;
+         }
+         else{
+             document.getElementById('oppName').innerHTML = snapshot.val().oneDN;
+         }
+     })
+    
+    //Returns function on player1 deleting lobby
+    if (selfCancel) {
+        return;
+    }
+
     firebase.database().ref('game/' + 'GTN/' + 'active/' + sessionStorage.getItem('currentGame') + '/').on("value", (snapshot) => {
+        //Returns function on player1 deleting lobby
+        if (selfCancel) {
+            return;
+        }
+
         const player1 = snapshot.child('oneNum').exists() ? snapshot.child('oneNum').val() : null;
         const player2 = snapshot.child('twoNum').exists() ? snapshot.child('twoNum').val() : null;
 
-        //Gives time for the active record to be written .5 seconds 
+        //Gives time for the active record to be written .5 seconds before checking if exists
+        //Disconnect timer 
         setTimeout(function() {
-            if (snapshot.exists() != true) {
-                //Disconnects the other player if one player disconnects 
-                setTimeout(function() {
-                    alert("Opponent Disconnected")
-                    location.reload();
-                }, 2000)
-            }
+            firebase.database().ref('game/' + 'GTN/' + 'active/' + sessionStorage.getItem('currentGame') + '/').on("value", (snapshot) => {
+                //Returns function on player1 deleting lobby
+                if (selfCancel) {
+                    return;
+                }
+                else if (snapshot.exists() != true) {
+                    //Disconnects the other player if one player disconnects 
+                    setTimeout(function() {
+                        alert("Opponent Disconnected")
+                        location.reload();
+                    }, 2000)
+                }
+            })
         }, 500)
 
         //Deletes previous eventlistner on the Unactive game path on disconnect 
@@ -114,6 +161,7 @@ function waitingForNum() {
 
         if (player1 && player2) {
             countDown();
+            document.getElementById("sync").innerHTML = '';
             firebase.database().ref('game/' + 'GTN/' + 'active/' + sessionStorage.getItem('currentGame') + '/').off();
             console.log("Gamestarts");
 
@@ -156,6 +204,7 @@ function guessNum(_num) {
                 }
                 else {
                     console.log("P1 lose")
+                    document.getElementById("submit-guess").style.display = 'none';
                     //Update turn 
                     firebase.database().ref('game/' + 'GTN/' + 'active/').child(sessionStorage.getItem('currentGame')).update({
                         turn: 1
@@ -178,6 +227,7 @@ function guessNum(_num) {
                 }
                 else {
                     console.log("P2 lose")
+                    document.getElementById("submit-guess").style.display = 'none';
                     //Update turn 
                     firebase.database().ref('game/' + 'GTN/' + 'active/').child(sessionStorage.getItem('currentGame')).update({
                         turn: 0
@@ -201,12 +251,14 @@ function countDown() {
                 //Starts timer for player 1 
                 if (firebase.auth().currentUser.uid == sessionStorage.getItem('currentGame')) {
                     timer();
+                    document.getElementById("submit-guess").style.display = 'block';
                 }
                 break;
             case 1:
                 //Starts timer for player 2
                 if (firebase.auth().currentUser.uid != sessionStorage.getItem('currentGame')) {
                     timer();
+                    document.getElementById("submit-guess").style.display = 'block';
                 }
                 break;
         }
@@ -223,7 +275,7 @@ function timer() {
             document.getElementById("countDown").innerHTML = "Finished";
             console.log("Current Player Loses")
 
-            //Makes player lose on no time 
+            //Makes player lose on time run out 
             if (sessionStorage.getItem('currentGame') == firebase.auth().currentUser.uid) {
                 //Player 1 updates P2 win
                 firebase.database().ref('game/' + 'GTN/' + 'active/').child(sessionStorage.getItem('currentGame')).update({
@@ -323,12 +375,11 @@ function addToGameList(gameName, oneID, oneDN, twoID, twoDN, gameStatus) {
 
 // Function for Player two to join a game
 function joinGame(_joinID) {
+    sessionStorage.setItem('currentGame', _joinID);
     console.log(_joinID);
 
     document.getElementById("lobbyWrapper").style.display = 'none';
     document.getElementById("GTN").style.display = 'block';
-
-    sessionStorage.setItem('currentGame', _joinID);
 
     firebase.database().ref('game/' + 'GTN/' + 'unActive/').child(_joinID).update({
         twoDN: sessionStorage.getItem('inGameName'),

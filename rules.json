@@ -2,22 +2,28 @@ Firebase Rules
 v1: Implemented rules where only authorised user can write and read from the firebase 
 v2: Increased more path, and added validation to the registration values
 v3: Added admin editing rights to all user stored data
+v4: Added comments, and userRole permissions 
 
 {
   "rules": {
     "userDetails": {
-        ".read": "auth.uid !== null",
+      ".read": "auth.uid !== null",
       "$uid": {
+        ".read": "false",
+        ".write": "auth.uid !== null",
+        //Only auth user && admin can read/write
         "private": {
           ".read": "$uid === auth.uid || auth.uid === '6Z8lSeM2ebdBK32BkcXoYwoJBTp1'",
           ".write": "$uid === auth.uid || auth.uid === '6Z8lSeM2ebdBK32BkcXoYwoJBTp1'"
         },
+        //Everyone can read but only auth user && admin can write
         "public": {
-          ".read": "true",
+          ".read": "auth.uid !== null",
           ".write": "$uid === auth.uid || auth.uid === '6Z8lSeM2ebdBK32BkcXoYwoJBTp1' "
         },
+        //Only auth user && admin can read/write
         "registerData": {
-          ".read": "true",
+          ".read": "$uid === auth.uid || auth.uid === '6Z8lSeM2ebdBK32BkcXoYwoJBTp1'",
           ".write": "$uid === auth.uid || auth.uid === '6Z8lSeM2ebdBK32BkcXoYwoJBTp1'",
           	//the value of "age" must be a number between 1-100/
             "age":{ 
@@ -30,20 +36,25 @@ v3: Added admin editing rights to all user stored data
               ".validate": "newData.isNumber()"
             }
         },
+        //All auth users can read and write 
         "game": {
           ".read": "auth.uid !== null",
           ".write": "$uid === auth.uid || root.child('userDetails').child($uid).child('public').exists() || auth.uid === '6Z8lSeM2ebdBK32BkcXoYwoJBTp1'",
           "GTN": {
-            ".read": "auth.uid !== null",
+            ".read": "true",
             ".write": "$uid === auth.uid || root.child('userDetails').child($uid).child('public').exists() || auth.uid === '6Z8lSeM2ebdBK32BkcXoYwoJBTp1'",
             "totalWins": {
               ".read": "true",
-              ".write": "true"
+              ".write": "$uid === auth.uid || auth.uid === '6Z8lSeM2ebdBK32BkcXoYwoJBTp1'",
             },
             "Loses": {
               ".read": "true",
-              ".write": "true"
-            }
+              ".write": "$uid === auth.uid || auth.uid === '6Z8lSeM2ebdBK32BkcXoYwoJBTp1'",
+            },
+            "WR":{
+              ".read": "true",
+              ".write": "$uid === auth.uid || auth.uid === '6Z8lSeM2ebdBK32BkcXoYwoJBTp1'",
+              }
           }
         }
       }
@@ -52,7 +63,13 @@ v3: Added admin editing rights to all user stored data
     "game":{
       ".read": "auth.uid !== null",
       ".write": "auth.uid !== null",
+    },
+    //Admin Roles
+    "userRoles":{
+      ".read":"true",
+      ".write":"false"
     }
   }
+
 }
 

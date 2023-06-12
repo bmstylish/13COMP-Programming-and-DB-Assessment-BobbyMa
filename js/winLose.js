@@ -23,22 +23,24 @@ function winLose() {
     if (sessionStorage.getItem('status') == 'win') {
         document.getElementById('status').innerHTML = "Win";
 
+        firebase.database().ref('userDetails/' +
+            sessionStorage.getItem('uid') + '/game/').child('GTN').update({
+                totalWins: firebase.database.ServerValue.increment(1)
+            });
+
         //Deletes finished game record 
         firebase.database().ref('game/' + 'GTN/' + 'active/' + sessionStorage.getItem('currentGame') + '/').remove();
 
         //Resetting local storage data 
         sessionStorage.removeItem('status');
         sessionStorage.removeItem('currentGame');
+        sessionStorage.removeItem('gameStart');
 
-        firebase.database().ref('userDetails/' +
-            sessionStorage.getItem('uid') + '/game/').child('GTN').update({
-                totalWins: firebase.database.ServerValue.increment(1)
-            });
 
         calculateWinRate();
 
         //Redirects back to homepage 
-        setTimeout(redirect, 5000);
+        setTimeout(redirect, 10000);
     }
     else {
         document.getElementById('status').innerHTML = "Lose";
@@ -49,11 +51,12 @@ function winLose() {
             });
         //Resetting local storage data 
         sessionStorage.removeItem('currentGame');
+        sessionStorage.removeItem('gameStart');
 
         calculateWinRate();
 
         //Redirects back to homepage
-        setTimeout(redirect, 5000);
+        setTimeout(redirect, 10000);
     }
 }
 
@@ -79,6 +82,7 @@ function calculateWinRate() {
             console.log("totalWins:" + totalWins);
             console.log(totalLosses);
 
+            //Avoids 0/0
             if (totalWins == 0) {
                 firebase.database().ref('userDetails/' + sessionStorage.getItem('uid') + '/game/GTN').update({
                     WR: 0

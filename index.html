@@ -237,6 +237,7 @@
                 <div class="w3-modal-content">
                     <div class="w3-container">
                         <p>Waiting for Other Player...</p>
+                        <button id="cancelLobby">Cancel</button>
                     </div>
                 </div>
             </div>
@@ -304,13 +305,14 @@
                 <div id="GTN" class="w3-row">
 
                     <div class="player-half w3-half w3-col m6 l6 s6 w3-padding">
-                        <div class="w3-white w3-text-grey w3-card-4">
+                        <div class="guess-field w3-white w3-text-grey w3-card-4">
                             <div class="w3-container">
+                                <div>Your Opponent:<span id="oppName"></span></div>
                                 <div id="initalNum">
                                     <form onsubmit="return false">
                                         <p>Input your number:</p>
                                         <input id="guessNum" type="text" maxlength="1"
-                                            oninput="this.value=this.value.replace(/[^0-9]/g,'');" />
+                                            oninput="this.value=this.value.replace(/[^0-9]/g,'');">
                                         <input type="submit" onclick="readNum()">
                                     </form>
                                 </div>
@@ -319,22 +321,22 @@
                                     <form onsubmit="return false">
                                         <p>Input your guess:</p>
                                         <input title="guessOppNum" id="guessOppNum" type="text" maxlength="1"
-                                            oninput="this.value=this.value.replace(/[^0-9]/g,'');" autofocus />
+                                            oninput="this.value=this.value.replace(/[^0-9]/g,'');" autofocus>
                                         <button type="submit" id="submit-guess"
                                             onclick="GTN.guessNum(document.getElementById('guessOppNum').value)">Submit</button>
                                     </form>
+                                    <div id="sync"></div>
+                                    <div id="countDown"></div>
                                 </div>
+                                    
                             </div>
-                            <div class="w3-padding">
-                                <div id="countDown"></div>
-                                <div class="opp-half w3-half w3-col m6 l6 s6 w3-padding">
-                                    <div class="w3-white w3-text-grey w3-card-4">
-                                        <div class="w3-container">
-                                            <div id="oppName"></div>
-                                            <p>Opp Guess:</p>
-                                        </div>
-                                    </div>
-                                </div>
+                        </div>
+                    </div>
+                    <div class="opp-half w3-half w3-col m6 l6 s6 w3-padding">
+                        <div class="w3-white w3-text-grey w3-card-4">
+                            <div class="w3-container">
+                                <div id="selfNum"></div>
+                                <div>Your Number: <span id="initalGuessNum"></span></div>
                             </div>
                         </div>
                     </div>

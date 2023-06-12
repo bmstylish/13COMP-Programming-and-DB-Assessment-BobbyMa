@@ -14,13 +14,12 @@ function addToBoard() {
     document.getElementById('ranking').style.display = 'block';
 
     var leaderboardTable = document.getElementById('rankBoard').getElementsByTagName('tbody')[0];
-    var userDetailRef = firebase.database().ref("userDetails");
 
     //Clears existing rows 
     leaderboardTable.innerHTML = '';
 
     
-    userDetailRef.orderByChild("game/" + "GTN/" + "totalWins").once("value", function(snapshot) {
+    firebase.database().ref("userDetails").orderByChild("game/" + "GTN/" + "totalWins").once("value", function(snapshot) {
         var rank = snapshot.numChildren();
 
         //Reads and stores data in local variables

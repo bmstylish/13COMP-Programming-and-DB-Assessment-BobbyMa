@@ -338,7 +338,6 @@ i.material-icons:hover {
 
 }
 
-
 .player-half{
     float: left;
     width: 45vw;
@@ -356,3 +355,8 @@ i.material-icons:hover {
 #guessOpp{
     display: none;
 }
+
+.guess-field{
+    height: auto !important;
+}
+
