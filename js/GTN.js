@@ -23,7 +23,6 @@
 var gameManager = {};
 var gameList = [];
 var selfCancel = false;
-var waitingForNumRef;
 
 function readNum() {
     var guessNum = document.getElementById('guessNum').value;
@@ -92,7 +91,7 @@ function waitingForGame() {
             document.getElementById("notification").style.display = 'block'
             setTimeout(function() {
                 document.getElementById("notification").style.display = 'none'
-            }, 3000)
+            }, 2000)
             waitingForNum();
         }
     });
@@ -100,10 +99,12 @@ function waitingForGame() {
     document.getElementById("cancelLobby").addEventListener("click", function() {
         firebase.database().ref('game/' + 'GTN/' + 'unActive/' + firebase.auth().currentUser.uid).remove();
         sessionStorage.removeItem('currentGame');
+        sessionStorage.setItem('gameStart', false);
         document.getElementById("GTN").style.display = 'none';
 
         document.getElementById("lobbyWrapper").style.display = 'block';
         document.getElementById("GTN_lobby").style.display = 'block';
+        document.getElementById("notification").style.display = 'none'
         selectAllGame();
         selfCancel = true;
     });
@@ -170,6 +171,10 @@ function waitingForNum() {
         if (player1 && player2) {
             countDown();
             document.getElementById("sync").innerHTML = '';
+            //Init player 2 message
+            if (sessionStorage.getItem('uid') != sessionStorage.getItem('currentGame')) {
+                document.getElementById("countDown").innerHTML = 'Waiting for Opponent...';
+            }
             firebase.database().ref('game/' + 'GTN/' + 'active/' + sessionStorage.getItem('currentGame') + '/').off();
             console.log("Gamestarts");
 
@@ -259,19 +264,25 @@ function countDown() {
                 //Starts timer for player 1 
                 if (firebase.auth().currentUser.uid == sessionStorage.getItem('currentGame')) {
                     timer();
-                    document.getElementById("submit-guess").style.display = 'block';
+                    //Delay submit button so syncs up with timer
+                    setTimeout(function() {
+                        document.getElementById("submit-guess").style.display = 'block';
+                    }, 1000)
+
                 }
                 break;
             case 1:
                 //Starts timer for player 2
                 if (firebase.auth().currentUser.uid != sessionStorage.getItem('currentGame')) {
                     timer();
-                    document.getElementById("submit-guess").style.display = 'block';
+                    //Delay submit button so syncs up with timer
+                    setTimeout(function() {
+                        document.getElementById("submit-guess").style.display = 'block';
+                    }, 1000)
                 }
                 break;
         }
     }));
-
 };
 
 //10 Second Timer Function 
@@ -362,7 +373,7 @@ function addToGameList(gameName, oneID, oneDN, twoID, twoDN, gameStatus) {
     // Check if the game name is null
     // If null, ignore the game and move to the next record
     if (gameName == null) {
-        return
+        return;
     }
     else {
         join.type = 'button'
