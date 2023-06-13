@@ -265,6 +265,11 @@
 
             <!-- Game Canvas -->
             <div id="wrapper" class="wrapper w3-margin w3-display-container">
+                <div id="notification" class="notification">
+                    <span class="close" onclick="hideNotification()">&times;</span>
+                    <h3>Attention</h3>
+                    <p id="notiMessage">Player has joined</p>
+                </div>
 
                 <div id="gameName" class="w3-display-middle game-name-container">
                     <div class="gameName">Guess the Number</div>
@@ -343,7 +348,7 @@
                 </div>
             </div>
 
-            <button id="stopBtn" class="stopBtn w3-container" onclick="stopGame()">Stop</button>
+            <button id="stopBtn" class="stopBtn w3-container" onclick="stopGame()">Back</button>
         </div>
     </div>
 

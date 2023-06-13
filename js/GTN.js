@@ -51,7 +51,7 @@ function readNum() {
 // Function to create a new game in Game Lobby
 function createGame() {
     selfCancel = false;
-    
+
     firebase.database().ref('game/' + 'GTN/' + 'unActive/' + firebase.auth().currentUser.uid).set({
         oneUID: firebase.auth().currentUser.uid,
         twoUID: '',
@@ -89,6 +89,10 @@ function waitingForGame() {
         if (snapshot.val() != '') {
             sessionStorage.setItem('gameStart', true);
             document.getElementById("barrierModal").style.display = 'none';
+            document.getElementById("notification").style.display = 'block'
+            setTimeout(function() {
+                document.getElementById("notification").style.display = 'none'
+            }, 3000)
             waitingForNum();
         }
     });
@@ -108,16 +112,16 @@ function waitingForGame() {
 // Function to listen for both players to select numbers
 function waitingForNum() {
     console.log("waitingForNum")
-    
-     firebase.database().ref('game/' + 'GTN/' + 'active/' + sessionStorage.getItem('currentGame') + '/').once('value').then((snapshot)=>{
-         if(sessionStorage.getItem('uid') == sessionStorage.getItem('currentGame')){
-             document.getElementById('oppName').innerHTML = snapshot.val().twoDN;
-         }
-         else{
-             document.getElementById('oppName').innerHTML = snapshot.val().oneDN;
-         }
-     })
-    
+
+    firebase.database().ref('game/' + 'GTN/' + 'active/' + sessionStorage.getItem('currentGame') + '/').once('value').then((snapshot) => {
+        if (sessionStorage.getItem('uid') == sessionStorage.getItem('currentGame')) {
+            document.getElementById('oppName').innerHTML = snapshot.val().twoDN;
+        }
+        else {
+            document.getElementById('oppName').innerHTML = snapshot.val().oneDN;
+        }
+    })
+
     //Returns function on player1 deleting lobby
     if (selfCancel) {
         return;
@@ -133,7 +137,7 @@ function waitingForNum() {
         const player2 = snapshot.child('twoNum').exists() ? snapshot.child('twoNum').val() : null;
 
         //Gives time for the active record to be written .5 seconds before checking if exists
-        //Disconnect timer 
+        //Disconnect observer
         setTimeout(function() {
             firebase.database().ref('game/' + 'GTN/' + 'active/' + sessionStorage.getItem('currentGame') + '/').on("value", (snapshot) => {
                 //Returns function on player1 deleting lobby
@@ -141,9 +145,13 @@ function waitingForNum() {
                     return;
                 }
                 else if (snapshot.exists() != true) {
-                    //Disconnects the other player if one player disconnects 
+                    //Display message
                     setTimeout(function() {
-                        alert("Opponent Disconnected")
+                        document.getElementById('notiMessage').innerHTML = "Opponent has disconnected";
+                        document.getElementById('notification').style.display = 'block';
+                    }, 1000)
+                    //Disconnects the other player if one player disconnects
+                    setTimeout(function() {
                         location.reload();
                     }, 2000)
                 }

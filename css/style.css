@@ -159,6 +159,7 @@ a.logo span {
     font-family: pencilFont;
     font-size:80px;
 }
+
 /*Button from https://getcssscan.com/css-buttons-examples */
 .startBtn{
   align-self: center;
@@ -205,6 +206,7 @@ a.logo span {
 
 .stopBtn{
   margin-left:16px;
+  display: none;
 }
 
 .w3-modal-content {
@@ -360,3 +362,37 @@ i.material-icons:hover {
     height: auto !important;
 }
 
+/* Pop Up notificaiton */
+.notification{
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    width: 300px;
+    box-shadow: 0px 0px 50x rgba(0,0,0,0.2);
+    display: none;
+    background-color: aqua;
+    z-index: 9999;
+}
+
+.notification h3{
+    margin-top: 0;
+    color: red;
+}
+
+.notification{
+    margin-bottom: 0;
+}
+
+.notification .close{
+    color:#aaa;
+    float: right;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.notification .close:hover{
+    color:#555;
+}

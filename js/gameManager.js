@@ -16,7 +16,8 @@ function setupCvs() {
     //Settings game start stats 
     document.getElementById('startBtn').style.display = 'none';
     document.getElementById("gameName").style.display = 'none';
-
+    
+    document.getElementById("stopBtn").style.display = 'block';
     document.getElementById("lobbyWrapper").style.display = 'block';
     document.getElementById("GTN_lobby").style.display = 'block';
     selectAllGame();
@@ -24,8 +25,11 @@ function setupCvs() {
 
 //Stops game by reloading page
 function stopGame() {
+    document.getElementById("lobbyWrapper").style.display = 'none';
+    document.getElementById("GTN_lobby").style.display = 'none';
+    
     document.getElementById('startBtn').style.display = 'block';
     document.getElementById("gameName").style.display = 'block';
-    location.reload();
+    document.getElementById("stopBtn").style.display = 'none';
 }
 
