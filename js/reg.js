@@ -3,7 +3,6 @@
 // 19/05 v01: Created js - created registration set up page to display authentication side 
 //              information onto the registration page 
 /************************************************************ */
-
 window.onload = reg_setUp
 
 function reg_setUp() {

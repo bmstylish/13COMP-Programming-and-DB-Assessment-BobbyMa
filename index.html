@@ -38,7 +38,7 @@
             <!--logo start-->
             <a href="#" class="w3-margin logo">Bobby's <span class="lite">Game</span></a>
             <!--logo end-->
-            <button class="w3-bar-item w3-btn w3-right w3-black w3-margin w3-hover-white"
+            <button id="logoutBtn" class="w3-bar-item w3-btn w3-right w3-black w3-margin w3-hover-white"
                 onclick="mainApp.logOut()">Logout</button>
 
             <button id="adminButton" class="w3-bar-item w3-btn w3-right w3-black w3-margin w3-hover-white"
@@ -117,17 +117,6 @@
                         <tbody id="tbody1">
                         </tbody>
                     </table>
-                    <!-- Games Table  -->
-                    <table>
-                        <thead id="unActiveGames" class="thead-light">
-                            <tr>
-                                <th>Game Name</th>
-                                <th>Time</th>
-                                <th>Control Center</th>
-                            </tr>
-                        </thead>
-
-                    </table>
                 </div>
 
                 <!-- Modal from bootstrap 5-->
@@ -141,7 +130,7 @@
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
-                            
+
                             <div class="modal-body">
                                 <label class="labs">Name: </label>
                                 <input type="text" id="displayNameMod"><br>
@@ -262,10 +251,16 @@
 
             <!-- Game Canvas -->
             <div id="wrapper" class="wrapper w3-margin w3-display-container">
+
+                <!-- Notification -->
                 <div id="notification" class="notification">
-                    <span class="close"></span>
                     <h3>Attention</h3>
                     <p id="notiMessage">Player has joined</p>
+                </div>
+
+                <!-- game notification -->
+                <div id="gameNotification" class="game-notification">
+                    <h3>Wrong Guess</h3>
                 </div>
 
                 <div id="gameName" class="w3-display-middle game-name-container">

@@ -367,13 +367,19 @@ i.material-icons:hover {
     position: fixed;
     top: 20px;
     right: 20px;
+    margin-bottom: 0;
     border: 1px solid #ccc;
     padding: 10px;
     width: 300px;
-    box-shadow: 0px 0px 50x rgba(0,0,0,0.2);
+    box-shadow: 0px 0px 5px rgba(0,0,0,0.2);
     display: none;
     background-color: aqua;
     z-index: 9999;
+    color: black;
+    float: right;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
 }
 
 .notification h3{
@@ -381,18 +387,20 @@ i.material-icons:hover {
     color: red;
 }
 
-.notification{
-    margin-bottom: 0;
-}
-
-.notification .close{
-    color:#aaa;
-    float: right;
+/* game pop up  */
+.game-notification{
+    position: absolute;
+    top: 50%;
+    right: 45%;
+    border: 1px solid #ccc;
+    padding: 10px;
+    width: 300px;
+    box-shadow: 0px 0px 5px rgba(0,0,0,0.2);
+    display: none;
+    background-color: #d31d1d;
+    z-index: 9999;
+    color:black;
     font-size: 20px;
     font-weight: bold;
-    cursor: pointer;
-}
-
-.notification .close:hover{
-    color:#555;
+    cursor: none;
 }

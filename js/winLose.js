@@ -8,6 +8,7 @@
 //           first. Calculate winrate function working. 
 // 24/5 v04: Tried to fix a bug where WR sometimes will be displayed as NaN
 //           But think its more of a firebase issue than the code
+// 14/6 v05: Added new places to write data to due the update of firebase
 /*********************************************************** */
 
 //Onload function on 

@@ -162,6 +162,9 @@ function waitingForNum() {
         window.addEventListener('beforeunload', function() {
             firebase.database().ref('game/' + 'GTN/' + 'active/' + sessionStorage.getItem('currentGame')).remove();
         });
+        document.getElementById('logoutBtn').addEventListener('click', function() {
+            firebase.database().ref('game/' + 'GTN/' + 'active/' + sessionStorage.getItem('currentGame')).remove();
+        })
 
         if (player1 && player2) {
             countDown();
@@ -219,6 +222,11 @@ function guessNum(_num) {
                     });
                     //Clear input field
                     document.getElementById('guessOppNum').value = '';
+                    //Display guess wrong notification 
+                    document.getElementById('gameNotification').style.display = 'block';
+                    setTimeout(function() {
+                        document.getElementById('gameNotification').style.display = 'none';
+                    }, 1000);
                 }
             });
         }
@@ -242,6 +250,11 @@ function guessNum(_num) {
                     });
                     //Clear input field
                     document.getElementById('guessOppNum').value = '';
+                    //Display guess wrong notification 
+                    document.getElementById('gameNotification').style.display = 'block';
+                    setTimeout(function() {
+                        document.getElementById('gameNotification').style.display = 'none';
+                    }, 1000);
                 }
             });
         }

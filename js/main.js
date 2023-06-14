@@ -16,6 +16,8 @@
 //      redirect to reg.html instead of popping up reg modal 
 // v02: Added function stats check, to display the 3 core stats on index
 //      on load
+// v03: Added new paths(leaderboard) to write and read from. Changed stats functions 
+//      to make sure it aligns with the new firebase structure
 /*********************************************************** */
 
 //Global Variables 
@@ -31,7 +33,6 @@ var mainApp = {};
             const GAMEREF = firebase.database().ref('game/' + 'GTN/' + 'leaderboard/' + firebase.auth().currentUser.uid);
             const GTNREF = firebase.database().ref('userDetails/' + firebase.auth().currentUser.uid + '/game/' + 'GTN/');
             sessionStorage.setItem('uid', firebase.auth().currentUser.uid);
-
 
             //Write function
             firebase.database().ref('userDetails/' +

@@ -6,6 +6,8 @@
 //      the value is ascending
 // v02: Added reverse function, however rank is not inversed alongside 
 // v03: Fixed by getting numChildren() instead of setting default 
+// v04: Changed where infomation was collected from due to structure of
+//      firebase changing 
 /*********************************************************** */
 var leaderboard = {};
 
@@ -17,7 +19,6 @@ function addToBoard() {
 
     //Clears existing rows 
     leaderboardTable.innerHTML = '';
-
     
     firebase.database().ref('game/' + 'GTN/' + 'leaderboard/').orderByChild('totalWins').once("value", function(snapshot) {
         var rank = snapshot.numChildren();

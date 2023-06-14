@@ -10,7 +10,7 @@
 // v01: Added new fields, gender, phone etc. 
 // v02: Implmented mods of these new fields so that admin 
 //      can change the values
-// v03: 
+// v03: Added leaderboard mods, for the new paths under game/GTN
 /*********************************************************** */
 
 //Global variables 
@@ -161,6 +161,7 @@ function addUser() {
 
         // ********** Adding leaderboard Data ********** // 
         firebase.database().ref('game/' + 'GTN/' + 'leaderboard/' + modUid.value).set({
+            IGN: modInGameName.value,
             totalWins: parseInt(modWins.value),
             Loses: parseInt(modLoses.value),
             WR: ''
@@ -207,6 +208,7 @@ function updUser() {
 
     // ********** Leaderboard Game data ********** //
         firebase.database().ref("game/" + 'GTN/' + 'leaderboard/' + modUid.value).update({
+        IGN: modInGameName.value,
         totalWins: parseInt(modWins.value),
         Loses: parseInt(modLoses.value)
     },
