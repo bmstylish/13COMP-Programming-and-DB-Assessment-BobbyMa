@@ -133,7 +133,7 @@ function addUser() {
             street: modStreet.value,
             suburb: modSuburb.value,
             city: modCity.value,
-            postcode: parseInt(modPostcode.value)
+            postcode: modPostcode.value
         },
             (error) => {
                 if (error) {
@@ -147,7 +147,8 @@ function addUser() {
         // ********** Adding Game Data ********** // 
         firebase.database().ref("userDetails/" + modUid.value + "/game/").child("GTN").set({
             totalWins: parseInt(modWins.value),
-            Loses: parseInt(modLoses.value)
+            Loses: parseInt(modLoses.value),
+            WR: ''
         },
             (error) => {
                 if (error) {
@@ -157,6 +158,13 @@ function addUser() {
                     alert("Game record was added");
                 }
             });
+
+        // ********** Adding leaderboard Data ********** // 
+        firebase.database().ref('game/' + 'GTN/' + 'leaderboard/' + modUid.value).set({
+            totalWins: parseInt(modWins.value),
+            Loses: parseInt(modLoses.value),
+            WR: ''
+        })
 
         selectAllData();
         $("#exampleModalCenter").modal('hide');
@@ -197,6 +205,20 @@ function updUser() {
             }
         });
 
+    // ********** Leaderboard Game data ********** //
+        firebase.database().ref("game/" + 'GTN/' + 'leaderboard/' + modUid.value).update({
+        totalWins: parseInt(modWins.value),
+        Loses: parseInt(modLoses.value)
+    },
+        (error) => {
+            if (error) {
+                alert("Leaderboard record was not updated, there was errors");
+            }
+            else {
+                alert("Leaderboard record was updated");
+            }
+        });
+
     // ********** Updating Register ********** // 
     firebase.database().ref("userDetails/" + modUid.value).child("registerData").update({
         regName: modInGameName.value,
@@ -207,7 +229,7 @@ function updUser() {
         street: modStreet.value,
         suburb: modSuburb.value,
         city: modCity.value,
-        postcode: parseInt(modPostcode.value)
+        postcode: modPostcode.value
     },
         (error) => {
             if (error) {
@@ -225,7 +247,7 @@ adminSelect.updUser = updUser;
 
 //*****************************************  Delete User  *****************************************************//
 function delUser() {
-    //Changing
+    //Changing user count
     userListCount = userListCount - 1;
     console.log(modUid.value);
     firebase.database().ref("userDetails/" + modUid.value).remove().then(
@@ -234,6 +256,7 @@ function delUser() {
             selectAllData();
         }
     );
+    firebase.database().ref('game/' + 'GTN/' + 'leaderboard/' + modUid.value).remove();
     $("#exampleModalCenter").modal('hide');
 }
 adminSelect.delUser = delUser;
@@ -271,10 +294,10 @@ function selectAllData() {
                         gender = registerData.gender;
                         phone = registerData.phone;
                         stNum = registerData.stNum;
-                        street = registerData.street
+                        street = registerData.street;
                         suburb = registerData.suburb;
                         city = registerData.city;
-                        postcode = registerData.postcode
+                        postcode = registerData.postcode;
                     }
                     else {
                         inGameName = "No Data";
@@ -282,14 +305,14 @@ function selectAllData() {
                         gender = "No Data";
                         phone = "No Data";
                         stNum = "No Data";
-                        street = "No Data"
+                        street = "No Data";
                         suburb = "No Data";
                         city = "No Data";
                         postcode = "No Data";
                     }
                     var gameData = currentRecord.val().game;
-                    var wins = gameData.GTN.totalWins
-                    var loses = gameData.GTN.Loses
+                    var wins = gameData.GTN.totalWins;
+                    var loses = gameData.GTN.Loses;
                     addItemsToTable(name, inGameName, email, age, gender, phone, stNum, street, suburb, city, postcode, wins, loses, uid);
                 }
             );

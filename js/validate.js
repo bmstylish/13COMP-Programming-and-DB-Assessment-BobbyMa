@@ -7,6 +7,7 @@
 // v03: Adding submit function 
 // v04: Changing whole of validate function to make it suitable for this 
 //      project. 19/05
+// v05: Adding letter validation
 /*********************************************************** */
 
 function valid_validateForm(event) {
@@ -24,6 +25,16 @@ function valid_validateForm(event) {
 
     let isValid = true;
 
+    document.getElementById("regNameErr").textContent = "";
+    document.getElementById("ageErr").textContent = "";
+    document.getElementById("genderErr").textContent = "";
+    document.getElementById("phoneErr").textContent = "";
+    document.getElementById("stNumErr").textContent = "";
+    document.getElementById("stErr").textContent = "";
+    document.getElementById("suburbErr").textContent = "";
+    document.getElementById("cityErr").textContent = "";
+    document.getElementById("postcodeErr").textContent = "";
+
     if (!REGNAME.match(/^[0-9a-zA-z._]{5,16}$/)) {
         document.getElementById("regNameErr").textContent = "Please enter a valid username using letters, numbers and . (5-16 characters)";
         isValid = false;
@@ -39,7 +50,7 @@ function valid_validateForm(event) {
         isValid = false;
     }
 
-    if (isNaN(PHONE)) {
+    if (isNaN(PHONE) || !PHONE.match(/^[0-9]{10,12}$/)) {
         document.getElementById("phoneErr").textContent = "Please enter a valid phone number";
         isValid = false;
     }
@@ -49,23 +60,23 @@ function valid_validateForm(event) {
         isValid = false;
     }
 
-    if (!STREET.trim()) {
+    if (!STREET.trim() || !STREET.match(/^[a-zA-Z\s]+$/)) {
         document.getElementById("stErr").textContent = "Please enter a valid street name";
         isValid = false;
     }
 
-    if (!SUBURB.trim()) {
+    if (!SUBURB.trim() || !SUBURB.match(/^[a-zA-Z\s]+$/)) {
         document.getElementById("suburbErr").textContent = "Please enter a valid suburb";
         isValid = false;
     }
 
-    if (!CITY.trim()) {
+    if (!CITY.trim() || !CITY.match(/^[a-zA-Z\s]+$/)) {
         document.getElementById("cityErr").textContent = "Please enter a valid city name";
         isValid = false;
     }
 
     if (!POSTCODE.match(/^\d{4}$/) || isNaN(POSTCODE)) {
-        document.getElementById("cityErr").textContent = "Please enter a valid postcode";
+        document.getElementById("postcodeErr").textContent = "Please enter a valid postcode";
         isValid = false;
     }
 
@@ -82,8 +93,11 @@ function valid_validateForm(event) {
             street: STREET,
             suburb: SUBURB,
             city: CITY,
-            postcode: parseInt(POSTCODE)
+            postcode: POSTCODE
         });
+        firebase.database().ref('game/' + 'GTN/' + 'leaderboard/' + firebase.auth().currentUser.uid).update({
+            IGN: REGNAME
+        })
         
         window.location.replace("index.html");
     }

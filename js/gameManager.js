@@ -10,6 +10,8 @@
 // v04: Moved all GTN logic into gameManager.js 
 /*********************************************************** */
 
+//Global Variable 
+var gameManager = {};
 
 //Set up function that resets everything to do with the game
 function setupCvs() {
@@ -22,6 +24,7 @@ function setupCvs() {
     document.getElementById("GTN_lobby").style.display = 'block';
     selectAllGame();
 }
+gameManager.setupCvs = setupCvs;
 
 //Stops game by reloading page
 function stopGame() {
@@ -32,4 +35,4 @@ function stopGame() {
     document.getElementById("gameName").style.display = 'block';
     document.getElementById("stopBtn").style.display = 'none';
 }
-
+gameManager.stopGame = stopGame;

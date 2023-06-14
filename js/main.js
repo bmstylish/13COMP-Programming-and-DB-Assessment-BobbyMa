@@ -28,8 +28,10 @@ var mainApp = {};
         if (user) {
             const PRIVATEREF = firebase.database().ref('userDetails/' + firebase.auth().currentUser.uid + '/private');
             const PUBLICREF = firebase.database().ref('userDetails/' + firebase.auth().currentUser.uid + '/public');
-            const GAMEREF = firebase.database().ref('userDetails/' + firebase.auth().currentUser.uid + '/game');
+            const GAMEREF = firebase.database().ref('game/' + 'GTN/' + 'leaderboard/' + firebase.auth().currentUser.uid);
+            const GTNREF = firebase.database().ref('userDetails/' + firebase.auth().currentUser.uid + '/game/' + 'GTN/');
             sessionStorage.setItem('uid', firebase.auth().currentUser.uid);
+
 
             //Write function
             firebase.database().ref('userDetails/' +
@@ -48,11 +50,18 @@ var mainApp = {};
                             photoURL: firebase.auth().currentUser.photoURL,
                         });
 
-                        GAMEREF.child('GTN').set({
+                        GAMEREF.set({
+                            IGN: '',
                             totalWins: 0,
                             WR: 0,
                             Loses: 0
-                        })
+                        });
+                        
+                        GTNREF.set({
+                            totalWins: 0,
+                            WR: 0,
+                            Loses: 0
+                        });
                     }
                 });
 
@@ -141,31 +150,28 @@ function statCheck() {
 
     sessionStorage.setItem('gameStart', false)
 
-
+    'game/' + 'leaderboard/' + 'GTN/' + firebase.auth().currentUser.uid
     //Sets total wins 
-    firebase.database().ref('userDetails/' +
-        sessionStorage.getItem('uid') + '/game/' + 'GTN/' + 'totalWins/').once('value', (snapshot) => {
-            totalWins = snapshot.val();
-            document.getElementById("totalWins").innerHTML = totalWins;
-        });
+    firebase.database().ref('game/' + 'GTN/' + 'leaderboard/' + sessionStorage.getItem('uid') + '/totalWins/').once('value', (snapshot) => {
+        totalWins = snapshot.val();
+        document.getElementById("totalWins").innerHTML = totalWins;
+    });
 
     //Sets total Losses
-    firebase.database().ref('userDetails/' +
-        sessionStorage.getItem('uid') + '/game/' + 'GTN/' + 'Loses/').once('value', (snapshot) => {
-            totalLoses = snapshot.val()
-            document.getElementById("loss").innerHTML = totalLoses;
-        });
+    firebase.database().ref('game/' + 'GTN/' + 'leaderboard/' + sessionStorage.getItem('uid') + '/Loses/').once('value', (snapshot) => {
+        totalLoses = snapshot.val()
+        document.getElementById("loss").innerHTML = totalLoses;
+    });
 
     //Sets WR
     setTimeout(() => {
-        firebase.database().ref('userDetails/' +
-            sessionStorage.getItem('uid') + '/game/' + 'GTN/' + 'WR/').once('value', (snapshot) => {
-                if (snapshot.val() == "NaN") {
-                    document.getElementById("WR").innerHTML = 0;
-                }
-                else {
-                    document.getElementById("WR").innerHTML = snapshot.val();
-                }
-            });
+        firebase.database().ref('game/' + 'GTN/' + 'leaderboard/' + sessionStorage.getItem('uid') + '/WR/').once('value', (snapshot) => {
+            if (snapshot.val() == "NaN") {
+                document.getElementById("WR").innerHTML = 0;
+            }
+            else {
+                document.getElementById("WR").innerHTML = snapshot.val();
+            }
+        });
     }, 500)
 }

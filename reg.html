@@ -66,7 +66,7 @@
 
             <div class="w3-container">
                 <label class="required-field" for="phone"><b>Phone: </b></label>
-                <input type="tel" id="i_phone" class="w3-input w3-border" required>
+                <input type="tel" id="i_phone" class="w3-input w3-border" oninput="this.value=this.value.replace(/[^0-9]/g,'');"  placeholder="(##)123456789" maxlength="12" required>
                 <span class="w3-text-red" id="phoneErr"></span>
             </div>
 

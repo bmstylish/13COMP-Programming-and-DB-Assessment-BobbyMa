@@ -16,11 +16,7 @@
 // v08: Fixed bug with disconnect features 
 /*********************************************************** */
 
-// To Do:
-// 1. Remember to change the variable names
-// 2. Update UI to better suit the game 
-
-var gameManager = {};
+var GTN = {};
 var gameList = [];
 var selfCancel = false;
 
@@ -29,7 +25,7 @@ function readNum() {
     document.getElementById('initalNum').style.display = 'none';
     document.getElementById("guessOpp").style.display = 'block';
     document.getElementById("submit-guess").style.display = 'none';
-    document.getElementById("sync").innerHTML = "Waiting for Oppnent...";
+    document.getElementById("sync").innerHTML = "Waiting for Opponent...";
     document.getElementById("initalGuessNum").innerHTML = guessNum;
 
     if (sessionStorage.getItem('currentGame') == firebase.auth().currentUser.uid) {
@@ -46,6 +42,7 @@ function readNum() {
         });
     }
 }
+GTN.readNum = readNum;
 
 // Function to create a new game in Game Lobby
 function createGame() {
@@ -64,7 +61,7 @@ function createGame() {
     window.addEventListener('beforeunload', function() {
         //Deletes created game on disconnect 
         firebase.database().ref('game/' + 'GTN/' + 'unActive/' + firebase.auth().currentUser.uid).remove();
-    })
+    });
 
     sessionStorage.setItem('gameStart', false);
     sessionStorage.setItem('currentGame', firebase.auth().currentUser.uid);
@@ -75,11 +72,11 @@ function createGame() {
     document.getElementById("GTN").style.display = 'block';
 
     if (sessionStorage.getItem('gameStart') == 'false') {
-        document.getElementById("barrierModal").style.display = 'block'
+        document.getElementById("barrierModal").style.display = 'block';
     }
     waitingForGame();
 }
-gameManager.createGame = createGame;
+GTN.createGame = createGame;
 
 // Function to listen for the second player to join the game
 function waitingForGame() {
@@ -88,10 +85,10 @@ function waitingForGame() {
         if (snapshot.val() != '') {
             sessionStorage.setItem('gameStart', true);
             document.getElementById("barrierModal").style.display = 'none';
-            document.getElementById("notification").style.display = 'block'
+            document.getElementById("notification").style.display = 'block';
             setTimeout(function() {
-                document.getElementById("notification").style.display = 'none'
-            }, 2000)
+                document.getElementById("notification").style.display = 'none';
+            }, 2000);
             waitingForNum();
         }
     });
@@ -104,7 +101,7 @@ function waitingForGame() {
 
         document.getElementById("lobbyWrapper").style.display = 'block';
         document.getElementById("GTN_lobby").style.display = 'block';
-        document.getElementById("notification").style.display = 'none'
+        document.getElementById("notification").style.display = 'none';
         selectAllGame();
         selfCancel = true;
     });
@@ -112,8 +109,6 @@ function waitingForGame() {
 
 // Function to listen for both players to select numbers
 function waitingForNum() {
-    console.log("waitingForNum")
-
     firebase.database().ref('game/' + 'GTN/' + 'active/' + sessionStorage.getItem('currentGame') + '/').once('value').then((snapshot) => {
         if (sessionStorage.getItem('uid') == sessionStorage.getItem('currentGame')) {
             document.getElementById('oppName').innerHTML = snapshot.val().twoDN;
@@ -121,7 +116,7 @@ function waitingForNum() {
         else {
             document.getElementById('oppName').innerHTML = snapshot.val().oneDN;
         }
-    })
+    });
 
     //Returns function on player1 deleting lobby
     if (selfCancel) {
@@ -150,22 +145,22 @@ function waitingForNum() {
                     setTimeout(function() {
                         document.getElementById('notiMessage').innerHTML = "Opponent has disconnected";
                         document.getElementById('notification').style.display = 'block';
-                    }, 1000)
+                    }, 1000);
                     //Disconnects the other player if one player disconnects
                     setTimeout(function() {
                         location.reload();
-                    }, 2000)
+                    }, 2000);
                 }
-            })
-        }, 500)
+            });
+        }, 500);
 
         //Deletes previous eventlistner on the Unactive game path on disconnect 
         window.removeEventListener('beforeunload', function() {
             firebase.database().ref('game/' + 'GTN/' + 'unActive/' + firebase.auth().currentUser.uid).remove();
-        })
+        });
         //Adds new event listener to delete active record
         window.addEventListener('beforeunload', function() {
-            firebase.database().ref('game/' + 'GTN/' + 'active/' + sessionStorage.getItem('currentGame')).remove()
+            firebase.database().ref('game/' + 'GTN/' + 'active/' + sessionStorage.getItem('currentGame')).remove();
         });
 
         if (player1 && player2) {
@@ -216,7 +211,7 @@ function guessNum(_num) {
                     });
                 }
                 else {
-                    console.log("P1 lose")
+                    console.log("P1 lose");
                     document.getElementById("submit-guess").style.display = 'none';
                     //Update turn 
                     firebase.database().ref('game/' + 'GTN/' + 'active/').child(sessionStorage.getItem('currentGame')).update({
@@ -226,7 +221,7 @@ function guessNum(_num) {
                     document.getElementById('guessOppNum').value = '';
                 }
             });
-        };
+        }
 
         if (firebase.auth().currentUser.uid != sessionStorage.getItem('currentGame') && turn == 1) {
             //Player 2 
@@ -239,7 +234,7 @@ function guessNum(_num) {
                     });
                 }
                 else {
-                    console.log("P2 lose")
+                    console.log("P2 lose");
                     document.getElementById("submit-guess").style.display = 'none';
                     //Update turn 
                     firebase.database().ref('game/' + 'GTN/' + 'active/').child(sessionStorage.getItem('currentGame')).update({
@@ -248,10 +243,10 @@ function guessNum(_num) {
                     //Clear input field
                     document.getElementById('guessOppNum').value = '';
                 }
-            })
-        };
+            });
+        }
 
-    })
+    });
 }
 GTN.guessNum = guessNum;
 
@@ -267,7 +262,7 @@ function countDown() {
                     //Delay submit button so syncs up with timer
                     setTimeout(function() {
                         document.getElementById("submit-guess").style.display = 'block';
-                    }, 1000)
+                    }, 1000);
 
                 }
                 break;
@@ -278,12 +273,12 @@ function countDown() {
                     //Delay submit button so syncs up with timer
                     setTimeout(function() {
                         document.getElementById("submit-guess").style.display = 'block';
-                    }, 1000)
+                    }, 1000);
                 }
                 break;
         }
     }));
-};
+}
 
 //10 Second Timer Function 
 function timer() {
@@ -292,7 +287,7 @@ function timer() {
         if (timeleft <= 0) {
             clearInterval(downloadTimer);
             document.getElementById("countDown").innerHTML = "Finished";
-            console.log("Current Player Loses")
+            console.log("Current Player Loses");
 
             //Makes player lose on time run out 
             if (sessionStorage.getItem('currentGame') == firebase.auth().currentUser.uid) {
@@ -316,8 +311,8 @@ function timer() {
     // End countdown on guess submit 
     document.getElementById("submit-guess").addEventListener("click", function() {
         clearInterval(downloadTimer);
-        console.log("Countdown Ended Early")
-        document.getElementById("countDown").innerHTML = "Waiting for Oppnent..."
+        console.log("Countdown Ended Early");
+        document.getElementById("countDown").innerHTML = "Waiting for Opponent..."
     });
 }
 
@@ -329,15 +324,15 @@ function selectAllGame() {
         function(AllRecords) {
             AllRecords.forEach(
                 function(currentRecord) {
-                    console.log("Current Record:")
-                    console.log(currentRecord)
+                    console.log("Current Record:");
+                    console.log(currentRecord);
 
                     var refGameUID = currentRecord.val();
 
                     var gameName;
 
                     if (refGameUID.oneDN == null) {
-                        return
+                        return;
                     }
                     else {
                         gameName = refGameUID.oneDN + "'s game";
@@ -354,6 +349,7 @@ function selectAllGame() {
             );
         });
 }
+GTN.selectAllGame = selectAllGame;
 
 //Function to display all selected games into HTML page
 function addToGameList(gameName, oneID, oneDN, twoID, twoDN, gameStatus) {
@@ -362,7 +358,7 @@ function addToGameList(gameName, oneID, oneDN, twoID, twoDN, gameStatus) {
     var td0 = document.createElement('td');
     var td1 = document.createElement('td');
     var td2 = document.createElement('td');
-    var join = document.createElement('button')
+    var join = document.createElement('button');
 
     console.log("gameName:")
     console.log(gameName)
@@ -406,7 +402,7 @@ function joinGame(_joinID) {
     })
 
     firebase.database().ref('game/' + 'GTN/' + 'unActive/' + _joinID).once('value', (snapshot => {
-        var currentGame = snapshot.val()
+        var currentGame = snapshot.val();
         // Move the game from the unactive games section to the active games
         firebase.database().ref('game/' + 'GTN/' + 'active/').update({
             [_joinID]: currentGame

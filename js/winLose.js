@@ -23,6 +23,12 @@ function winLose() {
     if (sessionStorage.getItem('status') == 'win') {
         document.getElementById('status').innerHTML = "Win";
 
+        //Updates leaderboard data 
+        firebase.database().ref('game/' + 'GTN/' + 'leaderboard/').child(sessionStorage.getItem('uid')).update({
+            totalWins: firebase.database.ServerValue.increment(1)
+        });
+
+        //Updates personal data
         firebase.database().ref('userDetails/' +
             sessionStorage.getItem('uid') + '/game/').child('GTN').update({
                 totalWins: firebase.database.ServerValue.increment(1)
@@ -40,15 +46,22 @@ function winLose() {
         calculateWinRate();
 
         //Redirects back to homepage 
-        setTimeout(redirect, 10000);
+        setTimeout(redirect, 5000);
     }
     else {
         document.getElementById('status').innerHTML = "Lose";
 
+        //Updates leaderboard data
+        firebase.database().ref('game/' + 'GTN/' + 'leaderboard/').child(sessionStorage.getItem('uid')).update({
+            Loses: firebase.database.ServerValue.increment(1)
+        });
+
+        //Updates personal data 
         firebase.database().ref('userDetails/' +
             sessionStorage.getItem('uid') + '/game/').child('GTN').update({
                 Loses: firebase.database.ServerValue.increment(1)
             });
+        
         //Resetting local storage data 
         sessionStorage.removeItem('currentGame');
         sessionStorage.removeItem('gameStart');
@@ -56,7 +69,7 @@ function winLose() {
         calculateWinRate();
 
         //Redirects back to homepage
-        setTimeout(redirect, 10000);
+        setTimeout(redirect, 5000);
     }
 }
 
@@ -68,10 +81,10 @@ function calculateWinRate() {
     console.log("calcWinrate")
 
     // Retrieve total wins
-    var winsPromise = firebase.database().ref('userDetails/' + sessionStorage.getItem('uid') + '/game/' + 'GTN/' + 'totalWins/').get('value').then(snapshot => snapshot.val())
+    var winsPromise = firebase.database().ref('game/' + 'GTN/' + 'leaderboard/' + sessionStorage.getItem('uid') + '/totalWins/').get('value').then(snapshot => snapshot.val())
 
     // Retrieve total losses
-    var lossesPromise = firebase.database().ref('userDetails/' + sessionStorage.getItem('uid') + '/game/' + 'GTN/' + 'Loses/').get('value').then(snapshot => snapshot.val())
+    var lossesPromise = firebase.database().ref('game/' + 'GTN/' + 'leaderboard/' + sessionStorage.getItem('uid') + '/Loses/').get('value').then(snapshot => snapshot.val())
 
     // Wait for both promises to resolve  
     Promise.all([winsPromise, lossesPromise])
@@ -84,14 +97,14 @@ function calculateWinRate() {
 
             //Avoids 0/0
             if (totalWins == 0) {
-                firebase.database().ref('userDetails/' + sessionStorage.getItem('uid') + '/game/GTN').update({
+                firebase.database().ref('game/' + 'GTN/' + 'leaderboard/' + sessionStorage.getItem('uid')).update({
                     WR: 0
                 });
             }
             else {
                 var winRate = (totalWins / (totalWins + totalLosses)) * 100;
                 winRate = winRate.toFixed(2);
-                firebase.database().ref('userDetails/' + sessionStorage.getItem('uid') + '/game/GTN').update({
+                firebase.database().ref('game/' + 'GTN/' + 'leaderboard/' + sessionStorage.getItem('uid')).update({
                     WR: winRate
                 });
             }

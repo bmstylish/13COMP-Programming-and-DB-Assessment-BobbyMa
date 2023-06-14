@@ -3,73 +3,88 @@ v1: Implemented rules where only authorised user can write and read from the fir
 v2: Increased more path, and added validation to the registration values
 v3: Added admin editing rights to all user stored data
 v4: Added comments, and userRole permissions 
+v5: Added more validation with reg data 
 
 {
   "rules": {
     "userDetails": {
-      ".read": "auth.uid !== null",
+      	".read": "auth.uid === '6Z8lSeM2ebdBK32BkcXoYwoJBTp1'",
+        ".write": "auth.uid === '6Z8lSeM2ebdBK32BkcXoYwoJBTp1'",
       "$uid": {
-        ".read": "false",
-        ".write": "auth.uid !== null",
-        //Only auth user && admin can read/write
+        //Only Auth user && Admin can read/write
         "private": {
           ".read": "$uid === auth.uid || auth.uid === '6Z8lSeM2ebdBK32BkcXoYwoJBTp1'",
           ".write": "$uid === auth.uid || auth.uid === '6Z8lSeM2ebdBK32BkcXoYwoJBTp1'"
         },
-        //Everyone can read but only auth user && admin can write
+        //Everyone can read but only auth && admin can write
         "public": {
           ".read": "auth.uid !== null",
-          ".write": "$uid === auth.uid || auth.uid === '6Z8lSeM2ebdBK32BkcXoYwoJBTp1' "
+          ".write": "$uid === auth.uid || auth.uid === '6Z8lSeM2ebdBK32BkcXoYwoJBTp1'"
         },
-        //Only auth user && admin can read/write
+        //Only Auth user && Admin can read/write
         "registerData": {
           ".read": "$uid === auth.uid || auth.uid === '6Z8lSeM2ebdBK32BkcXoYwoJBTp1'",
           ".write": "$uid === auth.uid || auth.uid === '6Z8lSeM2ebdBK32BkcXoYwoJBTp1'",
-          	//the value of "age" must be a number between 1-100/
-            "age":{ 
-            	".validate": "newData.isNumber() &&
-                        newData.val() >= 1 &&
-                        newData.val() <= 100"
-          },
-            //the value of "postcode" must be a number 
-            "postcode": {
-              ".validate": "newData.isNumber()"
-            }
+          	//the value of "age" must be a number between 1-100
+          	  "age": {
+          	  	".validate": "newData.isNumber() && newData.val() >= 1 && newData.val() <= 99"
+          	  },
+          	//Validating Postcode digits
+          	 "postcode": {
+          	 ".validate": "newData.val().length === 4 "
+          	 },
+          	//Validating Number and length is 12 characters
+          	  "phone": {
+          	  ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 999999999999"
+          	  },
+          	//Validating Letters 
+          	"street": {
+            	".validate": "newData.val().matches(/^[a-zA-Z\\s]+$/)"
+          	},	
+          	//Validating Letters 
+          	"suburb": {
+            	".validate": "newData.val().matches(/^[a-zA-Z\\s]+$/)"
+          	},
+          	//Validating Letters 
+          	"city": {
+            	".validate": "newData.val().matches(/^[a-zA-Z\\s]+$/)"
+          	},
         },
-        //All auth users can read and write 
+          //Game Score Storage 
         "game": {
           ".read": "auth.uid !== null",
           ".write": "$uid === auth.uid || root.child('userDetails').child($uid).child('public').exists() || auth.uid === '6Z8lSeM2ebdBK32BkcXoYwoJBTp1'",
           "GTN": {
             ".read": "true",
             ".write": "$uid === auth.uid || root.child('userDetails').child($uid).child('public').exists() || auth.uid === '6Z8lSeM2ebdBK32BkcXoYwoJBTp1'",
-            "totalWins": {
+             //Anyone can read but only owner && admin can edit
+              "totalWins": {
               ".read": "true",
-              ".write": "$uid === auth.uid || auth.uid === '6Z8lSeM2ebdBK32BkcXoYwoJBTp1'",
+              ".write": "$uid === auth.uid || auth.uid === '6Z8lSeM2ebdBK32BkcXoYwoJBTp1'"
             },
+            //Anyone can read but only owner && admin can edit
             "Loses": {
               ".read": "true",
-              ".write": "$uid === auth.uid || auth.uid === '6Z8lSeM2ebdBK32BkcXoYwoJBTp1'",
+              ".write": "$uid === auth.uid || auth.uid === '6Z8lSeM2ebdBK32BkcXoYwoJBTp1'"
             },
-            "WR":{
+            //Anyone can read but only owner && admin can edit
+            "WR": {
               ".read": "true",
-              ".write": "$uid === auth.uid || auth.uid === '6Z8lSeM2ebdBK32BkcXoYwoJBTp1'",
-              }
+              ".write": "$uid === auth.uid || auth.uid === '6Z8lSeM2ebdBK32BkcXoYwoJBTp1'"
+            }
           }
         }
       }
     },
-    //Userlobby Games
-    "game":{
+    //Mutiplayer Lobbies
+    "game": {
       ".read": "auth.uid !== null",
-      ".write": "auth.uid !== null",
+      ".write": "auth.uid !== null"
     },
-    //Admin Roles
-    "userRoles":{
-      ".read":"true",
-      ".write":"false"
+    //Admin Roles 
+    "userRoles": {
+      ".read": "true",
+      ".write": "false"
     }
   }
-
 }
-

@@ -141,6 +141,7 @@
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
+                            
                             <div class="modal-body">
                                 <label class="labs">Name: </label>
                                 <input type="text" id="displayNameMod"><br>
@@ -217,17 +218,17 @@
         </div>
         <!-- ******************************************** Leaderboard Modal Ends ******************************************** -->
 
-        <!-- ******************************************** main content start ******************************************** -->
+        <!-- ******************************************** Main Content Start ******************************************** -->
         <div id="main-content">
             <!-- Infomation Display -->
             <div class="infoDisplay">
-                <div class="w3-container info-container">WR:
+                <div class="w3-container info-container">Win Rate(%):
                     <div class="score" id="WR"></div>
                 </div>
                 <div class="w3-container info-container">Total Wins:
                     <div class="high-score" id="totalWins"></div>
                 </div>
-                <div class="w3-container info-container">Loses:
+                <div class="w3-container info-container">Loss:
                     <div class="miss" id="loss"></div>
                 </div>
             </div>
@@ -262,7 +263,7 @@
             <!-- Game Canvas -->
             <div id="wrapper" class="wrapper w3-margin w3-display-container">
                 <div id="notification" class="notification">
-                    <span class="close" onclick="hideNotification()">&times;</span>
+                    <span class="close"></span>
                     <h3>Attention</h3>
                     <p id="notiMessage">Player has joined</p>
                 </div>
@@ -272,7 +273,7 @@
                 </div>
 
                 <div id="startBtn" class="w3-container w3-display-middle middle-container">
-                    <button class="startBtn w3-margin" onclick="setupCvs()">Start</button>
+                    <button class="startBtn w3-margin" onclick="gameManager.setupCvs()">Start</button>
 
                     <button onclick="document.getElementById('info').style.display='block'"
                         class="insBtn w3-button w3-black">How to Play</button>
@@ -280,11 +281,11 @@
 
                 <!-- Guess the Number Mutiplayer Lobby -->
                 <div id="lobbyWrapper">
-                    <button id="createBtn" onclick="gameManager.createGame()"
+                    <button id="createBtn" onclick="GTN.createGame()"
                         class="createBtn w3-display-topright w3-margin w3-btn w3-white w3-border w3-border-green w3-round-xlarge">Create</button>
 
                     <div class="refresh">
-                        <i onclick="selectAllGame()" class="w3-display-topright fa fa-refresh material-icons"></i>
+                        <i onclick="GTN.selectAllGame()" class="w3-display-topright fa fa-refresh material-icons"></i>
                     </div>
                     <div id="GTN_lobby">
                         <table class="tttLobby w3-hoverable w3-table w3-bordered w3-display-topmiddle">
@@ -304,17 +305,17 @@
 
                 <!-- *********** GTN Playboard *********** -->
                 <div id="GTN" class="w3-row">
-
+                    <!-- First Half -->
                     <div class="player-half w3-half w3-col m6 l6 s6 w3-padding">
                         <div class="guess-field w3-white w3-text-grey w3-card-4">
                             <div class="w3-container">
-                                <div>Your Opponent:<span id="oppName"></span></div>
+                                <div>Your Opponent: <span id="oppName"></span></div>
                                 <div id="initalNum">
                                     <form onsubmit="return false">
                                         <p>Input your number:</p>
                                         <input id="guessNum" type="text" maxlength="1"
                                             oninput="this.value=this.value.replace(/[^0-9]/g,'');">
-                                        <input type="submit" onclick="readNum()">
+                                        <input type="submit" onclick="GTN.readNum()">
                                     </form>
                                 </div>
 
@@ -333,6 +334,7 @@
                             </div>
                         </div>
                     </div>
+                    <!-- Second Half -->
                     <div class="opp-half w3-half w3-col m6 l6 s6 w3-padding">
                         <div class="w3-white w3-text-grey w3-card-4">
                             <div class="w3-container">
@@ -343,8 +345,7 @@
                     </div>
                 </div>
             </div>
-
-            <button id="stopBtn" class="stopBtn w3-container" onclick="stopGame()">Back</button>
+            <button id="stopBtn" class="stopBtn w3-container" onclick="gameManager.stopGame()">Back</button>
         </div>
     </div>
 

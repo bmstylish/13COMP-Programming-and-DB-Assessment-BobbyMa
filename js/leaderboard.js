@@ -19,13 +19,13 @@ function addToBoard() {
     leaderboardTable.innerHTML = '';
 
     
-    firebase.database().ref("userDetails").orderByChild("game/" + "GTN/" + "totalWins").once("value", function(snapshot) {
+    firebase.database().ref('game/' + 'GTN/' + 'leaderboard/').orderByChild('totalWins').once("value", function(snapshot) {
         var rank = snapshot.numChildren();
 
         //Reads and stores data in local variables
         snapshot.forEach(function(userSnapshot) {
-            var totalWins = userSnapshot.child("game/" + "GTN/" + "totalWins/").val();
-            var inGameName = userSnapshot.child("registerData/" + "regName/").val();
+            var totalWins = userSnapshot.child("totalWins/").val();
+            var inGameName = userSnapshot.child("IGN").val();
 
             var row = leaderboardTable.insertRow();
 
